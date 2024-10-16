@@ -1,8 +1,15 @@
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 public class Semillas {
 
@@ -13,7 +20,6 @@ public class Semillas {
     protected int precio;
     protected int cantidad;
 
-    public static String RUTA_FICHERO_XML=""
 
     public Semillas(int id, String nombre, String estacion, int diasCrecimiento, int precio, int cantidad) {
         this.id = id;
@@ -25,10 +31,5 @@ public class Semillas {
     }
 
 
-    public void cargarSemillas(){
-        DocumentBuilderFactory dbFactory= DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBulider  = dbFactory.newDocumentBuilder();
-        Document doc=dBulider.parse(new File(RUTA_FICHERO_XML));
-        doc.getDocumentElement().normalize();
-    }
+
 }
