@@ -17,19 +17,18 @@ public class Semillas {
     protected String nombre;
     protected String estacion;
     protected int diasCrecimiento;
-    protected int precio;
+    protected int precioCompra;
+    protected int precioVenta;
     protected int cantidad;
 
 
-    public Semillas(int id, String nombre, String estacion, int diasCrecimiento, int precio, int cantidad) {
+    public Semillas(int id, String nombre,String estacion,  int diasCrecimiento, int precioCompra, int precioVenta, int cantidad) {
+        this.estacion = estacion;
         this.id = id;
         this.nombre = nombre;
-        this.estacion = estacion;
         this.diasCrecimiento = diasCrecimiento;
-        this.precio = precio;
+        this.precioCompra = precioCompra;
+        this.precioVenta = precioVenta;
         this.cantidad = cantidad;
     }
-
-
-
 }

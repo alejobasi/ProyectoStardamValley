@@ -43,10 +43,11 @@ public class Tienda {
                     String nombre=semilla.getElementsByTagName("nombre").item(0).getTextContent();
                     String estacion=semilla.getElementsByTagName("estacion").item(0).getTextContent();
                     int diasCrecimiento= Integer.parseInt(semilla.getElementsByTagName("diasCrecimiento").item(0).getTextContent());
-                    int precio= Integer.parseInt(semilla.getElementsByTagName("precioCompraSemilla").item(0).getTextContent());
+                    int precioCompra= Integer.parseInt(semilla.getElementsByTagName("precioCompraSemilla").item(0).getTextContent());
+                    int precioVenta= Integer.parseInt(semilla.getElementsByTagName("precioVentaFruto").item(0).getTextContent());
                     int cantidad= Integer.parseInt(semilla.getElementsByTagName("maxFrutos").item(0).getTextContent());
 
-                    Semillas sem= new Semillas(id,nombre,estacion,diasCrecimiento,precio,cantidad);
+                    Semillas sem= new Semillas(id,nombre,estacion,diasCrecimiento,precioCompra,precioVenta,cantidad);
 
                     listaTienda.add(sem);
 

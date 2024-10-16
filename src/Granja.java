@@ -1,6 +1,8 @@
 public class Granja {
 
     protected Tienda tienda;
+    protected double presupuesto;
+    protected Estaciones estacion;
 
     public Granja() {
         tienda=new Tienda();
