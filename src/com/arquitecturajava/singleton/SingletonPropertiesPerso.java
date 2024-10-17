@@ -5,11 +5,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class SingletonProperties {
+public class SingletonPropertiesPerso {
     public static String RUTA_VALORES_PRE="resources"+ File.separator+"default_config.properties";
     private static SingletonProperties instancia=null;
     private Properties p;
-    public SingletonProperties() {
+    private SingletonPropertiesPerso() {
 
         p= new Properties();
         try {
@@ -24,7 +24,7 @@ public class SingletonProperties {
 
         if (instancia==null) {
 
-            instancia=new SingletonProperties();
+            instancia= new SingletonProperties();
         }
         return instancia;
     }

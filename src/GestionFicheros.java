@@ -1,8 +1,12 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class GestionFicheros {
     public static String RUTA_VALORES_PRE="resources"+ File.separator+"default_config.properties";
+    public static String RUTA_JUEGO = "resources" + File.separator + "StardamValley.bin";
 
 
 
@@ -29,6 +33,17 @@ public class GestionFicheros {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static boolean comprobarPartidaExiste() {
+
+        Path path = Paths.get(RUTA_JUEGO);
+        if (Files.exists(path)) {
+            return true;
+        } else {
+
+            return false;
+        }
     }
 
 }
