@@ -77,6 +77,7 @@ public class Granja {
                                 "Dias por Estación: " + diasPorEstacion + "\n" +
                                 "Presupuesto: " + granja.presupuesto + "\n" +
                                 "Estación: " + granja.estacion);
+                        GestionFicheros.crearHuerto(numColHuerto,numFilHuerto);
                     } else if (respuestaValores == 2) {
 
                         System.out.println(" INDICA TUS VALORES\n" +
@@ -123,7 +124,8 @@ public class Granja {
                         numFilHuerto=numFil;
                         diasPorEstacion=diasEstacion;
                         granja.presupuesto=presupuesto;
-
+                        GestionFicheros.crearFicheroPropertiesPersonalizado(numColHuerto,numFilHuerto,diasPorEstacion,granja.presupuesto,granja.estacion);
+                        GestionFicheros.crearHuerto(numColHuerto,numFilHuerto);
 
                     } else {
                         System.out.println("Valor incorrecto vuelve a introducirlo");
@@ -152,6 +154,10 @@ public class Granja {
             }
         } while (respuestaPartida != 1 && respuestaPartida != 2);
 
+        do {
+
+
+        }
 
     }
 }

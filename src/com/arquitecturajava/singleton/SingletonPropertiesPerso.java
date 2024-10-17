@@ -33,4 +33,7 @@ public class SingletonPropertiesPerso {
 
         return p.getProperty(clave);
     }
+    public void cambiarPropiedad(String clave, String valor){
+        p.replace(clave,valor);
+    }
 }
