@@ -9,10 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Tienda {
 
@@ -20,6 +17,7 @@ public class Tienda {
     private HashSet<Semillas> tiendaDiaria;
 
     public Tienda() {
+        this.tiendaDiaria = new HashSet<>();
 
     }
 
@@ -33,6 +31,26 @@ public class Tienda {
 
     public static void generarNuevaTienda(Granja granja){
 
+
+List<Semillas>disponibles=granja.getSemillasDisponibles();
+        Random random = new Random();
+        disponibles.sort((a, b) -> random.nextInt(3 - 1));
+        HashSet<Semillas>listaFinal=new HashSet<>();
+
+        while (listaFinal.size()<3){
+
+            int semillaAleatoria=random.nextInt(disponibles.size());
+            listaFinal.add(disponibles.get(semillaAleatoria));
+
+        }
+
+        granja.getTienda().setTiendaDiaria(listaFinal);
+
+
+    }
+
+    public static void mostrarTiendaDiaria(Granja granja){
+
         System.out.println("Tienda Diaria:");
         System.out.println("(Por cada compra se adquieren 3 semillas)");
         int ind=1;
@@ -41,18 +59,12 @@ public class Tienda {
             System.out.println(ind+". Semilla: "+semilla.getNombre() +" Precio: "+semilla.getPrecioVenta()*NUM_SEMILLAS_TIENDA);
         }
 
-
-
-    }
-
-    public static void mostrarTiendaDiaria(){
-
-
-
     }
 
 
     public static void tienda(Granja granja){
+        generarNuevaTienda(granja);
+        mostrarTiendaDiaria(granja);
 
     }
 }

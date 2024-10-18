@@ -62,6 +62,7 @@ public class Main {
         } while (respuestaPartida != 1 && respuestaPartida != 2);
 
 
+        menuOpciones(granja);
 
     }
 
@@ -164,6 +165,13 @@ public class Main {
     }
 
     public static void menuOpciones(Granja granja){
+
+        Scanner sc=new Scanner(System.in);
+        int respuesta=0;
+        boolean salida=false;
+        do {
+
+
         System.out.println("\n STARDAM VALLEY\n" +
                           "---------------------");
         System.out.println("1. INICIAR NUEVO DIA");
@@ -173,6 +181,41 @@ public class Main {
         System.out.println("5. VENDER COSECHA");
         System.out.println("6. MOSTRAR INFORMACIÓN DE LA GRANJA");
         System.out.println("7. SALIR");
+
+        respuesta=sc.nextInt();
+
+        switch (respuesta){
+            case 1:
+
+            break;
+
+            case 2:
+               Tienda.mostrarTiendaDiaria(granja);
+                break;
+
+            case 3:
+
+                break;
+
+            case 4:
+
+                break;
+
+            case 5:
+
+                break;
+
+            case 6:
+
+                break;
+
+            case 7:
+
+                salida=true;
+                break;
+        }
+
+    }while (respuesta>1&&respuesta<7&&!salida);
 
     }
 }
