@@ -12,16 +12,47 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class Tienda {
 
-    List<Semillas> listaSemillas;
-    HashSet<Semillas> tiendaDiaria;
+   private static int NUM_SEMILLAS_TIENDA=3;
+    private HashSet<Semillas> tiendaDiaria;
 
     public Tienda() {
-        this.listaSemillas = GestionFSemillas.cargarSemillas();
+
+    }
+
+    public HashSet<Semillas> getTiendaDiaria() {
+        return tiendaDiaria;
+    }
+
+    public void setTiendaDiaria(HashSet<Semillas> tiendaDiaria) {
+        this.tiendaDiaria = tiendaDiaria;
+    }
+
+    public static void generarNuevaTienda(Granja granja){
+
+        System.out.println("Tienda Diaria:");
+        System.out.println("(Por cada compra se adquieren 3 semillas)");
+        int ind=1;
+
+        for(Semillas semilla: granja.getTienda().tiendaDiaria){
+            System.out.println(ind+". Semilla: "+semilla.getNombre() +" Precio: "+semilla.getPrecioVenta()*NUM_SEMILLAS_TIENDA);
+        }
+
+
+
+    }
+
+    public static void mostrarTiendaDiaria(){
+
+
+
     }
 
 
+    public static void tienda(Granja granja){
 
+    }
 }

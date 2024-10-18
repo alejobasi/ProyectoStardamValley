@@ -159,17 +159,20 @@ public class Main {
             }
         } while (respuestaValores != 1 && respuestaValores != 2);
 
+
+
     }
 
     public static void menuOpciones(Granja granja){
         System.out.println("\n STARDAM VALLEY\n" +
                           "---------------------");
         System.out.println("1. INICIAR NUEVO DIA");
-        System.out.println("2. ATENDER CULTIVOS");
-        System.out.println("3. PLANTAR CULTIVOS EN COLUMNA");
-        System.out.println("4. VENDER COSECHA");
-        System.out.println("5. MOSTRAR INFORMACIÓN DE LA GRANJA");
-        System.out.println("6. SALIR");
+        System.out.println("2. TIENDA");
+        System.out.println("3. ATENDER CULTIVOS");
+        System.out.println("4. PLANTAR CULTIVOS EN COLUMNA");
+        System.out.println("5. VENDER COSECHA");
+        System.out.println("6. MOSTRAR INFORMACIÓN DE LA GRANJA");
+        System.out.println("7. SALIR");
 
     }
 }

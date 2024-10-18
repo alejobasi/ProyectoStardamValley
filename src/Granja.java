@@ -1,5 +1,6 @@
 import com.arquitecturajava.singleton.SingletonProperties;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -9,11 +10,15 @@ public class Granja {
     private double presupuesto;
     private Estaciones estacion;
     private int diasPorEstacion;
-    private Map semillasPorEstacion;
+    private List<Semillas>semillasDisponibles;
+    private Map<Semillas,List<Estaciones>> semillasPorEstacion;
+    private Map semillasPorId;
 
     public Granja() {
-        tienda=new Tienda();
         diaJuego=0;
+        tienda=new Tienda();
+        semillasPorEstacion=GestionFSemillas.semillasporEstacion(GestionFSemillas.cargarSemillas());
+
 
     }
 
@@ -57,6 +62,29 @@ public class Granja {
         this.tienda = tienda;
     }
 
+    public List<Semillas> getSemillasDisponibles() {
+        return semillasDisponibles;
+    }
+
+    public void setSemillasDisponibles(List<Semillas> semillasDisponibles) {
+        this.semillasDisponibles = semillasDisponibles;
+    }
+
+    public Map<Semillas, List<Estaciones>> getSemillasPorEstacion() {
+        return semillasPorEstacion;
+    }
+
+    public void setSemillasPorEstacion(Map<Semillas, List<Estaciones>> semillasPorEstacion) {
+        this.semillasPorEstacion = semillasPorEstacion;
+    }
+
+    public Map getSemillasPorId() {
+        return semillasPorId;
+    }
+
+    public void setSemillasPorId(Map semillasPorId) {
+        this.semillasPorId = semillasPorId;
+    }
 }
 
 

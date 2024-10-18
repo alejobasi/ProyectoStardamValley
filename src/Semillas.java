@@ -13,13 +13,13 @@ import java.util.List;
 
 public class Semillas {
 
-    protected int id;
-    protected String nombre;
-    protected String estacion;
-    protected int diasCrecimiento;
-    protected int precioCompra;
-    protected int precioVenta;
-    protected int cantidad;
+    private int id;
+    private String nombre;
+    private String estacion;
+    private int diasCrecimiento;
+    private int precioCompra;
+    private int precioVenta;
+    private int cantidad;
 
 
     public Semillas(int id, String nombre,String estacion,  int diasCrecimiento, int precioCompra, int precioVenta, int cantidad) {
@@ -30,5 +30,61 @@ public class Semillas {
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.cantidad = cantidad;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEstacion() {
+        return estacion;
+    }
+
+    public void setEstacion(String estacion) {
+        this.estacion = estacion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getDiasCrecimiento() {
+        return diasCrecimiento;
+    }
+
+    public void setDiasCrecimiento(int diasCrecimiento) {
+        this.diasCrecimiento = diasCrecimiento;
+    }
+
+    public int getPrecioCompra() {
+        return precioCompra;
+    }
+
+    public void setPrecioCompra(int precioCompra) {
+        this.precioCompra = precioCompra;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public int getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(int precioVenta) {
+        this.precioVenta = precioVenta;
     }
 }
