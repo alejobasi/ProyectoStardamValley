@@ -86,4 +86,61 @@ public class GestionFicheros {
 
     }
 
+    public static int sacarFilas(){
+        Properties properties= new Properties();
+        int numFila;
+        if (Files.exists(Path.of(RUTA_VALORES_PERSONALIZADOS))){
+            try {
+                properties.load(new FileInputStream(RUTA_VALORES_PERSONALIZADOS));
+                 numFila=Integer.parseInt(properties.getProperty("numFilHuerto"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }else {
+            try {
+                properties.load(new FileInputStream(RUTA_VALORES_POR_DEFECTO));
+                numFila=Integer.parseInt(properties.getProperty("numFilHuerto"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return numFila;
+    }
+
+    public static int sacarColumnas(){
+        Properties properties= new Properties();
+        int numFila;
+        if (Files.exists(Path.of(RUTA_VALORES_PERSONALIZADOS))){
+            try {
+                properties.load(new FileInputStream(RUTA_VALORES_PERSONALIZADOS));
+                numFila=Integer.parseInt(properties.getProperty("numColHuerto"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }else {
+            try {
+                properties.load(new FileInputStream(RUTA_VALORES_POR_DEFECTO));
+                numFila=Integer.parseInt(properties.getProperty("numColHuerto"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return numFila;
+    }
+
+    public static void mostrarGranja(Granja granja){
+        System.out.println("INFORMACIÓN DE LA GRNAJA: ");
+        System.out.println(" - Día de juego: "+granja.getDiaJuego());
+        System.out.println(" - Dinero disponible: "+granja.getPresupuesto());
+        System.out.println(" - Estación: "+granja.getEstacion());
+        System.out.print(" - Semillas en Venta: ");Tienda.mostrarTiendaDiaria(granja);
+        System.out.println("");
+        System.out.println(" - Estado del huerto: ");GestionFHuerto.mostrarHuerto();
+
+    }
+
 }

@@ -39,54 +39,80 @@ public class GestionFHuerto {
     }
 
     public static void mostrarHuerto(){
+        int numFilas=GestionFicheros.sacarFilas();
+        int numCol=GestionFicheros.sacarColumnas();
         try {
             RandomAccessFile raf=new RandomAccessFile(RUTA_FICHERO, "r");
 
-            while (raf.getFilePointer()< raf.length()){
+            raf.seek(0);
+            for (int fila = 0; fila < numFilas; fila++) {
+                for (int col = 0; col < numCol; col++) {
+                    System.out.print("[");
 
-                int idSemilla= raf.readInt();
-                System.out.println("ID: "+idSemilla);
+                    long pos = raf.getFilePointer();
 
-                boolean regado= raf.readBoolean();
-                System.out.println("Regado: "+regado);
+                    if (raf.getFilePointer() + 4 <= raf.length() && raf.readInt()!=VALOR_DEFECTO_ENTERO) {
+                        raf.seek(pos);
+                        int idSemilla = raf.readInt();
+                        System.out.print(idSemilla + "-");
 
-                int diasPlantado= raf.readInt();
-                System.out.println("Dias Plantado: "+diasPlantado);
+                        if (raf.getFilePointer() + 1 <= raf.length()) {
+                            boolean regado = raf.readBoolean();
+                            System.out.print(regado + "-");
+                        }
+
+                        if (raf.getFilePointer() + 4 <= raf.length()) {
+                            int diasPlantado = raf.readInt();
+                            System.out.print(diasPlantado);
+                        }
+                    } else {
+                        raf.seek(pos);
+                        System.out.print("SS");
+                    }
+
+                    System.out.print("]");
+
+                }
+                System.out.println("");
             }
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
-    public static boolean columnaVacia(int columna, Granja granja){
+    public static boolean columnaVacia(int columna){
+
+        int numFilas=GestionFicheros.sacarFilas();
+        int numCol=GestionFicheros.sacarColumnas();
 
         try {
             RandomAccessFile raf=new RandomAccessFile(RUTA_FICHERO, "r");
-            boolean nula=true;
+            boolean nula=false;
 
-            int cantidadPorciones= (int) raf.length()/TAMANO_REGISTRO;
 
-           for (int fil=0;fil<granja.getNumFil();fil++){
-               int pos=(fil*granja.getNumCol()+columna)*TAMANO_REGISTRO;
 
-               if (pos >= raf.length()) {
-                   System.out.println("La columna solicitada está fuera del rango del archivo.");
-                   return true; // La columna no existe, la tratamos como vacía
-               }
+            for (int fil=0; fil<numFilas; fil++){
+                for (int col=0;col<numCol; col++){
+                    if (col==columna-1){
+                        if (raf.readInt()==-1){
+                            nula=true;
+                        }
 
-               raf.seek(pos);
-               int comprobar = raf.readInt();
 
-               if (comprobar != VALOR_DEFECTO_ENTERO) {
-                   raf.close();
-                   nula= false;
-               }else {
-                   nula=true;
-               }
-           }
+
+                        raf.readBoolean();
+
+
+                        raf.readInt();
+                    }else {
+                        raf.skipBytes(TAMANO_REGISTRO);
+                    }
+
+                }
+            }
 
             return nula;
 
@@ -96,5 +122,39 @@ public class GestionFHuerto {
             throw new RuntimeException(e);
         }
     }
+
+    public static void plantarEnColumna(Semillas sem, int columna){
+        int numFilas=GestionFicheros.sacarFilas();
+        int numCol=GestionFicheros.sacarColumnas();
+        try {
+            RandomAccessFile raf=new RandomAccessFile(RUTA_FICHERO, "rw");
+            raf.seek(0);
+            for (int fil=0; fil<numFilas; fil++){
+                for (int col=0;col<numCol; col++){
+                    if (col==columna-1){
+                        raf.writeInt(sem.getId());
+
+
+                        raf.writeBoolean(VALOR_DEFECTO_BOOLEAN);
+
+
+                        raf.writeInt(1);
+                    }else {
+                        raf.skipBytes(TAMANO_REGISTRO);
+                    }
+
+                }
+            }
+            mostrarHuerto();
+            raf.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
 
 }

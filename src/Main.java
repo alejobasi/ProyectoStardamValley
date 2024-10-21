@@ -102,7 +102,7 @@ public class Main {
 
 
                 GestionFHuerto.crearHuerto(numColHuerto,numFilHuerto);
-                GestionFHuerto.mostrarHuerto();
+
             } else if (respuestaValores == 2) {
 
                 System.out.println(" INDICA TUS VALORES\n" +
@@ -151,10 +151,9 @@ public class Main {
                 granja.setPresupuesto(presupuesto);
                 GestionFicheros.crearFicheroPropertiesPersonalizado(numColHuerto,numFilHuerto,granja.getDiasPorEstacion(), granja.getPresupuesto(), granja.getEstacion());
                 granja.setSemillasDisponibles(GestionFSemillas.semillasDisponibles(granja.getEstacion(),granja.getSemillasPorEstacion()));
-                granja.setNumCol(numCol);
-                granja.setNumFil(numFil);
+
                 GestionFHuerto.crearHuerto(numColHuerto,numFilHuerto);
-                GestionFHuerto.mostrarHuerto();
+
 
             } else {
                 System.out.println("Valor incorrecto vuelve a introducirlo");
@@ -207,6 +206,20 @@ public class Main {
                 break;
 
             case 4:
+                System.out.println("Dime en que columna vas a plantar: ");
+                int columna=sc.nextInt();
+                if (GestionFHuerto.columnaVacia(columna)){
+                    if (granja.getAlmacen().getSemillas().isEmpty()){
+                        System.out.println("No hay semillas para plantar");
+                    }else {
+                Semillas sem=granja.getAlmacen().elegirSemillaPlantar();
+                    GestionFHuerto.plantarEnColumna(sem,columna);
+
+                    }
+                }else {
+                    System.out.println("Columna Plantada");
+                }
+
 
                 break;
 
@@ -215,7 +228,7 @@ public class Main {
                 break;
 
             case 6:
-
+                GestionFicheros.mostrarGranja(granja);
                 break;
 
             case 7:

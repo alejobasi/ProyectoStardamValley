@@ -8,8 +8,6 @@ public class Granja {
     private int diaJuego;
     private Tienda tienda;
     private double presupuesto;
-    private int numFil;
-    private int numCol;
     private Estaciones estacion;
     private int diasPorEstacion;
     private List<Semillas>semillasDisponibles;
@@ -19,7 +17,7 @@ public class Granja {
 
 
     public Granja() {
-        diaJuego=0;
+        diaJuego=1;
         tienda=new Tienda();
         semillasPorEstacion=GestionFSemillas.semillasporEstacion(GestionFSemillas.cargarSemillas());
         almacen=new Almacen();
@@ -98,21 +96,7 @@ public class Granja {
         this.almacen = almacen;
     }
 
-    public int getNumFil() {
-        return numFil;
-    }
 
-    public void setNumFil(int numFil) {
-        this.numFil = numFil;
-    }
-
-    public int getNumCol() {
-        return numCol;
-    }
-
-    public void setNumCol(int numCol) {
-        this.numCol = numCol;
-    }
 }
 
 
