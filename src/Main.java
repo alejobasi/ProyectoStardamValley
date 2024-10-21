@@ -67,6 +67,7 @@ public class Main {
     }
 
     public static void nuevaPartida(Granja granja){
+        GestionFicheros.borrarNuevaPartida();
         Scanner sc = new Scanner(System.in);
 
         int numFilHuerto = 0;
@@ -91,15 +92,17 @@ public class Main {
                 granja.setPresupuesto( Double.parseDouble(sp.getPropiedad("presupuesto")));
                 granja.setDiasPorEstacion( Integer.parseInt(sp.getPropiedad("duracionDiasEstacion")));
                 granja.setEstacion( Estaciones.valueOf(sp.getPropiedad("estacion")));
+                granja.setSemillasDisponibles(GestionFSemillas.semillasDisponibles(granja.getEstacion(),granja.getSemillasPorEstacion()));
 
                 System.out.println("Num Filas Huerto: " + numFilHuerto + "\n" +
                         "Num Columnas Huerto: " + numColHuerto + "\n" +
                         "Dias por Estación: " + granja.getDiasPorEstacion() + "\n" +
                         "Presupuesto: " + granja.getPresupuesto() + "\n" +
                         "Estación: " + granja.getEstacion());
+
+
                 GestionFHuerto.crearHuerto(numColHuerto,numFilHuerto);
                 GestionFHuerto.mostrarHuerto();
-
             } else if (respuestaValores == 2) {
 
                 System.out.println(" INDICA TUS VALORES\n" +
@@ -147,6 +150,9 @@ public class Main {
                 granja.setDiasPorEstacion( diasEstacion);
                 granja.setPresupuesto(presupuesto);
                 GestionFicheros.crearFicheroPropertiesPersonalizado(numColHuerto,numFilHuerto,granja.getDiasPorEstacion(), granja.getPresupuesto(), granja.getEstacion());
+                granja.setSemillasDisponibles(GestionFSemillas.semillasDisponibles(granja.getEstacion(),granja.getSemillasPorEstacion()));
+                granja.setNumCol(numCol);
+                granja.setNumFil(numFil);
                 GestionFHuerto.crearHuerto(numColHuerto,numFilHuerto);
                 GestionFHuerto.mostrarHuerto();
 
@@ -160,7 +166,7 @@ public class Main {
             }
         } while (respuestaValores != 1 && respuestaValores != 2);
 
-
+        Tienda.generarNuevaTienda(granja);
 
     }
 
@@ -186,11 +192,14 @@ public class Main {
 
         switch (respuesta){
             case 1:
+                granja.setDiaJuego(granja.getDiaJuego()+1);
+                Tienda.generarNuevaTienda(granja);
+
 
             break;
 
             case 2:
-               Tienda.mostrarTiendaDiaria(granja);
+               Tienda.tienda(granja);
                 break;
 
             case 3:

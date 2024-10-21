@@ -61,4 +61,40 @@ public class GestionFHuerto {
         }
     }
 
+    public static boolean columnaVacia(int columna, Granja granja){
+
+        try {
+            RandomAccessFile raf=new RandomAccessFile(RUTA_FICHERO, "r");
+            boolean nula=true;
+
+            int cantidadPorciones= (int) raf.length()/TAMANO_REGISTRO;
+
+           for (int fil=0;fil<granja.getNumFil();fil++){
+               int pos=(fil*granja.getNumCol()+columna)*TAMANO_REGISTRO;
+
+               if (pos >= raf.length()) {
+                   System.out.println("La columna solicitada está fuera del rango del archivo.");
+                   return true; // La columna no existe, la tratamos como vacía
+               }
+
+               raf.seek(pos);
+               int comprobar = raf.readInt();
+
+               if (comprobar != VALOR_DEFECTO_ENTERO) {
+                   raf.close();
+                   nula= false;
+               }else {
+                   nula=true;
+               }
+           }
+
+            return nula;
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

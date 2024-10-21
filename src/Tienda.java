@@ -43,6 +43,11 @@ List<Semillas>disponibles=granja.getSemillasDisponibles();
             listaFinal.add(disponibles.get(semillaAleatoria));
 
         }
+        for (Semillas s: listaFinal){
+            if (s.getPrecioCompra()*3>granja.getPresupuesto()){
+                listaFinal.remove(s);
+            }
+        }
 
         granja.getTienda().setTiendaDiaria(listaFinal);
 
@@ -53,17 +58,37 @@ List<Semillas>disponibles=granja.getSemillasDisponibles();
 
         System.out.println("Tienda Diaria:");
         System.out.println("(Por cada compra se adquieren 3 semillas)");
-        int ind=1;
 
-        for(Semillas semilla: granja.getTienda().tiendaDiaria){
-            System.out.println(ind+". Semilla: "+semilla.getNombre() +" Precio: "+semilla.getPrecioVenta()*NUM_SEMILLAS_TIENDA);
+
+
+
+        Iterator<Semillas> iterator = granja.getTienda().getTiendaDiaria().iterator();
+
+       while (iterator.hasNext()){
+        Semillas semilla=iterator.next();
+            if (semilla.getPrecioCompra()*3>granja.getPresupuesto()){
+                System.out.println("Semilla: "+ semilla.getNombre() +" Precio: "+semilla.getPrecioCompra() * NUM_SEMILLAS_TIENDA+" - No tienes suficiente presupuesto.");
+            }
+            else {
+                System.out.println(" Semilla: " + semilla.getNombre() + " Precio: " + semilla.getPrecioCompra() * NUM_SEMILLAS_TIENDA+": Comprada");
+                granja.setPresupuesto(granja.getPresupuesto()-semilla.getPrecioCompra()*3);
+                granja.getAlmacen().agregarSemilla(semilla,NUM_SEMILLAS_TIENDA);
+
+                iterator.remove();
+            }
+          }
+        System.out.println("Presupuesto actual: " + granja.getPresupuesto());
+
+
+
+
+
         }
 
-    }
 
 
     public static void tienda(Granja granja){
-        generarNuevaTienda(granja);
+
         mostrarTiendaDiaria(granja);
 
     }

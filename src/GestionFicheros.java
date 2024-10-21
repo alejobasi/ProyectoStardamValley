@@ -8,6 +8,7 @@ public class GestionFicheros {
     public static String RUTA_VALORES_POR_DEFECTO="resources"+ File.separator+"default_config.properties";
     public static String RUTA_JUEGO = "resources" + File.separator + "StardamValley.bin";
     public static String RUTA_VALORES_PERSONALIZADOS="resources"+ File.separator+"personalized_config.properties";
+    public static String RUTA_FICHERO_HUERTO="resources"+ File.separator+"huerto.dat";
 
 
 
@@ -52,6 +53,35 @@ public class GestionFicheros {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void borrarNuevaPartida(){
+        Path pathHuerto=Paths.get(RUTA_FICHERO_HUERTO);
+        Path pathJuego=Paths.get(RUTA_JUEGO);
+        Path pathPersonalizados=Paths.get(RUTA_VALORES_PERSONALIZADOS);
+
+        if (Files.exists(pathJuego)){
+            try {
+                Files.delete(pathJuego);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (Files.exists(pathHuerto)){
+            try {
+                Files.delete(pathHuerto);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (Files.exists(pathPersonalizados)){
+            try {
+                Files.delete(pathPersonalizados);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
