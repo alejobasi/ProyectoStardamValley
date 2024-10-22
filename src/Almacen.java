@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Almacen {
     protected List<HashMap<Semillas, Integer>> semillas;
@@ -34,27 +31,30 @@ public class Almacen {
         this.semillas.add(mapaSemillas);
     }
 
-    public Semillas elegirSemillaPlantar(){
-    int index=1;
-        Scanner sc=new Scanner(System.in);
+    public Semillas elegirSemillaPlantar() {
+        int index = 1;
+        Scanner sc = new Scanner(System.in);
         List<Semillas> lista = new ArrayList<>();
+
+        // Llenar la lista y mostrar las opciones
         for (HashMap<Semillas, Integer> mapa : this.semillas) {
-
-            for (Semillas semilla: mapa.keySet()){
-
-                System.out.println(index+". "+semilla.getNombre());
+            for (Semillas semilla : mapa.keySet()) {
+                System.out.println(index + ". " + semilla.getNombre());
                 index++;
                 lista.add(semilla);
             }
         }
-        System.out.println("Dime el numero de la semilla que quieres elegir: ");
-        int num=sc.nextInt();
 
-        if (num<lista.size()){
-            restarSemillaAlmacen(lista.get(num-1));
-            return lista.get(num-1);
-        }else {
-            System.out.println("El numero no existe, se elige la primera");
+
+        System.out.println("Dime el número de la semilla que quieres elegir: ");
+        int num = sc.nextInt();
+
+
+        if (num > 0 && num <= lista.size()) {
+            restarSemillaAlmacen(lista.get(num - 1));
+            return lista.get(num - 1);
+        } else {
+            System.out.println("El número no existe, se elige la primera");
             return lista.get(0);
         }
     }
@@ -84,6 +84,44 @@ boolean salir=false;
             }
         }
     }
+
+    public void anadirFrutoAlmacen(int idSemilla){
+        Random random = new Random();
+        List<Semillas>listaSemillas=GestionFSemillas.cargarSemillas();
+
+        for (Semillas sem:listaSemillas){
+            if (sem.getId()==idSemilla){
+                int posiblesFrutos=sem.getCantidad();
+                int cantidad=random.nextInt(posiblesFrutos)+1;
+
+                if (this.frutos.containsKey(sem)) {
+                    int cantidadActual = this.frutos.get(sem);
+                    this.frutos.put(sem, cantidadActual + cantidad);
+                } else {
+                    this.frutos.put(sem, cantidad);
+                }
+
+            }
+        }
+
+    }
+
+    public void verFrutos() {
+
+
+        List<Semillas> lista = new ArrayList<>();
+        for (Map.Entry<Semillas, Integer> entry : this.frutos.entrySet()) {
+
+            Semillas semilla = entry.getKey();
+            int cantidad = entry.getValue();
+
+            // Mostrar el nombre de la semilla y la cantidad de frutos
+            System.out.println("[" + semilla.getNombre() + " - " + cantidad+"]");
+
+
+        }
+    }
+
 
 
 }

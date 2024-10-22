@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.List;
 
 public class GestionFHuerto {
 
@@ -165,11 +166,18 @@ public class GestionFHuerto {
 
     public static boolean semillaTiempo(int idSemilla,int tiempo){
         boolean resultado=false;
-
+        List<Semillas>listaSemillas=GestionFSemillas.cargarSemillas();
+        for (Semillas sem:listaSemillas){
+            if (sem.getId()==idSemilla){
+            if (sem.getDiasCrecimiento()==tiempo){
+                resultado=true;
+            }
+        }
+        }
         return resultado;
     }
 
-    public static void atenderCultivos(){
+    public static void atenderCultivos(Granja granja){
         int numFilas=GestionFicheros.sacarFilas();
         int numCol=GestionFicheros.sacarColumnas();
 
@@ -190,18 +198,31 @@ public class GestionFHuerto {
                             raf.writeBoolean(true);
                             long posTiempo=raf.getFilePointer();
                             int tiempo=raf.readInt();
+                            boolean semillaTerminada=semillaTiempo(idSemilla,tiempo);
 
-                           // raf.seek();
-                           // raf.writeInt();
+                            System.out.println("Tiempo"+tiempo);
+
+                            if (semillaTerminada==true){
+                                System.out.println("True");
+                            }else {
+                                System.out.println("False");
+                            }
+
+                            if (semillaTerminada){
+                                granja.getAlmacen().anadirFrutoAlmacen(idSemilla);
+                                raf.seek(posPrimera);
+                                raf.writeInt(VALOR_DEFECTO_ENTERO);
+
+                                raf.writeBoolean(VALOR_DEFECTO_BOOLEAN);
+
+                                raf.writeInt(VALOR_DEFECTO_ENTERO);
+                            }else {
+                                raf.seek(posTiempo);
+                                raf.writeInt(tiempo+1);
+                            }
+
 
                         }
-
-
-
-
-
-
-
 
 
                 }

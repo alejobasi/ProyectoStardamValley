@@ -35,7 +35,11 @@ public class Tienda {
 List<Semillas>disponibles=granja.getSemillasDisponibles();
         Random random = new Random();
         disponibles.sort((a, b) -> random.nextInt(3 - 1));
+
         HashSet<Semillas>listaFinal=new HashSet<>();
+        HashSet<Semillas>listaVacia=new HashSet<>();
+        granja.getTienda().setTiendaDiaria(listaVacia);
+
 
         while (listaFinal.size()<3){
 
@@ -43,9 +47,12 @@ List<Semillas>disponibles=granja.getSemillasDisponibles();
             listaFinal.add(disponibles.get(semillaAleatoria));
 
         }
-        for (Semillas s: listaFinal){
-            if (s.getPrecioCompra()*3>granja.getPresupuesto()){
-                listaFinal.remove(s);
+
+        Iterator<Semillas> iterator = listaFinal.iterator();
+        while (iterator.hasNext()) {
+            Semillas s = iterator.next();
+            if (s.getPrecioCompra() * 3 > granja.getPresupuesto()) {
+                iterator.remove();
             }
         }
 

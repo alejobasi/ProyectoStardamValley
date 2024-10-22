@@ -139,6 +139,7 @@ public class GestionFicheros {
         System.out.println(" - Estación: "+granja.getEstacion());
         System.out.print(" - Semillas en Venta: ");Tienda.mostrarTiendaDiaria(granja);
         System.out.println("");
+        System.out.println(" - Frutos en almacén : ");granja.getAlmacen().verFrutos();
         System.out.println(" - Estado del huerto: ");GestionFHuerto.mostrarHuerto();
 
     }

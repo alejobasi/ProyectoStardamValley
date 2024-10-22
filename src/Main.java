@@ -195,6 +195,7 @@ public class Main {
                 granja.setDiaJuego(granja.getDiaJuego()+1);
                 Tienda.generarNuevaTienda(granja);
                 cultivosAtendidos=false;
+                menuOpciones(granja);
 
 
             break;
@@ -205,7 +206,7 @@ public class Main {
 
             case 3:
                 if (!cultivosAtendidos){
-
+                    GestionFHuerto.atenderCultivos(granja);
                     cultivosAtendidos=true;
                 }else {
                     System.out.println("Los cultivos ya están atendidos");

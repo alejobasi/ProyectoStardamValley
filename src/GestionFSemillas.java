@@ -68,20 +68,19 @@ Map mapa=new HashMap();
             String lineaEstacion=semilla.getEstacion();
             if (lineaEstacion.contains("-")){
 
-                System.out.println("Dos Estaciones");
 
                 String[] dosEstaciones=lineaEstacion.split("-");
                 Estaciones est1= Estaciones.valueOf(dosEstaciones[0].toUpperCase());
                 Estaciones est2= Estaciones.valueOf(dosEstaciones[1].toUpperCase());
-                System.out.println("Estacion 1: "+est1);
+
                 estacionesDeSemilla.add(est1);
-                System.out.println("Estacion 2: "+est2);
+
 
                 estacionesDeSemilla.add(est2);
 
             }else {
                 estacionesDeSemilla.add(Estaciones.valueOf(semilla.getEstacion().toUpperCase()));
-                System.out.println("Estacion Normal: "+semilla.getEstacion());
+
 
             }
 
