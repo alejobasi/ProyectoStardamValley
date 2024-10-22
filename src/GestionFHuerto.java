@@ -51,22 +51,30 @@ public class GestionFHuerto {
 
                     long pos = raf.getFilePointer();
 
-                    if (raf.getFilePointer() + 4 <= raf.length() && raf.readInt()!=VALOR_DEFECTO_ENTERO) {
+                    if (raf.readInt()!=VALOR_DEFECTO_ENTERO) {
                         raf.seek(pos);
                         int idSemilla = raf.readInt();
                         System.out.print(idSemilla + "-");
 
-                        if (raf.getFilePointer() + 1 <= raf.length()) {
-                            boolean regado = raf.readBoolean();
-                            System.out.print(regado + "-");
-                        }
 
-                        if (raf.getFilePointer() + 4 <= raf.length()) {
+                            boolean regado = raf.readBoolean();
+                            if (regado==false){
+                                System.out.print("F-");
+
+                            }else {
+                                System.out.print("T-");
+                            }
+
+
+
                             int diasPlantado = raf.readInt();
                             System.out.print(diasPlantado);
-                        }
+
                     } else {
                         raf.seek(pos);
+                        int idSemilla = raf.readInt();
+                        boolean regado = raf.readBoolean();
+                        int diasPlantado = raf.readInt();
                         System.out.print("SS");
                     }
 
@@ -147,6 +155,59 @@ public class GestionFHuerto {
             }
             mostrarHuerto();
             raf.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static boolean semillaTiempo(int idSemilla,int tiempo){
+        boolean resultado=false;
+
+        return resultado;
+    }
+
+    public static void atenderCultivos(){
+        int numFilas=GestionFicheros.sacarFilas();
+        int numCol=GestionFicheros.sacarColumnas();
+
+
+        try {
+            RandomAccessFile raf=new RandomAccessFile(RUTA_FICHERO, "rw");
+
+            for (int fil=0; fil<numFilas; fil++){
+                for (int col=0;col<numCol; col++){
+                    long posPrimera= raf.getFilePointer();
+                   int idSemilla=raf.readInt();
+                        if (idSemilla==-1){
+
+                            raf.readBoolean();
+                            raf.readInt();
+                        }else {
+
+                            raf.writeBoolean(true);
+                            long posTiempo=raf.getFilePointer();
+                            int tiempo=raf.readInt();
+
+                           // raf.seek();
+                           // raf.writeInt();
+
+                        }
+
+
+
+
+
+
+
+
+
+                }
+            }
+
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

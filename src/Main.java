@@ -171,6 +171,7 @@ public class Main {
 
     public static void menuOpciones(Granja granja){
 
+        boolean cultivosAtendidos=false;
         Scanner sc=new Scanner(System.in);
         int respuesta=0;
         boolean salida=false;
@@ -193,6 +194,7 @@ public class Main {
             case 1:
                 granja.setDiaJuego(granja.getDiaJuego()+1);
                 Tienda.generarNuevaTienda(granja);
+                cultivosAtendidos=false;
 
 
             break;
@@ -202,6 +204,12 @@ public class Main {
                 break;
 
             case 3:
+                if (!cultivosAtendidos){
+
+                    cultivosAtendidos=true;
+                }else {
+                    System.out.println("Los cultivos ya están atendidos");
+                }
 
                 break;
 

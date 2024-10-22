@@ -51,10 +51,37 @@ public class Almacen {
         int num=sc.nextInt();
 
         if (num<lista.size()){
+            restarSemillaAlmacen(lista.get(num-1));
             return lista.get(num-1);
         }else {
             System.out.println("El numero no existe, se elige la primera");
             return lista.get(0);
+        }
+    }
+
+    public void restarSemillaAlmacen(Semillas sem){
+int cantidad;
+boolean salir=false;
+        for (HashMap<Semillas, Integer> mapa : this.semillas) {
+
+            for (Semillas semilla: mapa.keySet()){
+
+                if (mapa.containsKey(sem)&&salir==false){
+
+                    int resta=mapa.get(sem);
+
+                    resta=resta-1;
+
+                    if (resta>0){
+                        mapa.put(sem,resta);
+
+                    }else {
+                        mapa.remove(sem);
+                    }
+                    salir=true;
+                }
+
+            }
         }
     }
 
