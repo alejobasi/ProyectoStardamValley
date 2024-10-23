@@ -9,9 +9,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
-public class Semillas {
+public class Semillas implements Serializable {
 
     private int id;
     private String nombre;
@@ -30,6 +32,18 @@ public class Semillas {
         this.precioCompra = precioCompra;
         this.precioVenta = precioVenta;
         this.cantidad = cantidad;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Semillas semillas)) return false;
+        return id == semillas.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     public int getId() {

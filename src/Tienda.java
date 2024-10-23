@@ -9,9 +9,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
-public class Tienda {
+public class Tienda implements Serializable {
 
    private static int NUM_SEMILLAS_TIENDA=3;
     private HashSet<Semillas> tiendaDiaria;

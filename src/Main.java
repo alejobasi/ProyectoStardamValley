@@ -7,10 +7,10 @@ public class Main {
     public static void main(String[] args) {
 
         Granja granja = new Granja();
+        int diasCont=1;
 
 
-
-      juego(granja);
+      juego(granja,diasCont);
 
     }
 
@@ -19,7 +19,7 @@ public class Main {
      * @param granja
 
      */
-    public static void juego(Granja granja) {
+    public static void juego(Granja granja,int diasCont) {
 
 
         Scanner sc = new Scanner(System.in);
@@ -30,7 +30,7 @@ public class Main {
 
 
 
-        if (GestionFicheros.comprobarPartidaExiste()) {
+        if (GestionFBinario.comprobarPartidaExiste()) {
             System.out.println("2. CARGAR PARTIDA");
         }
         int respuestaPartida = 0;
@@ -45,6 +45,7 @@ public class Main {
 
 
             } else if (respuestaPartida == 2) {
+                granja=GestionFBinario.cargarParida();
 
             } else {
                 System.out.println("Valor incorrecto vuelve a introducirlo");
@@ -52,7 +53,7 @@ public class Main {
                 System.out.println("  BIENVENIDO A STARDAM VALLEY\n" +
                         "-------------------------------");
                 System.out.println("1. NUEVA PARTIDA");
-                if (GestionFicheros.comprobarPartidaExiste()) {
+                if (GestionFBinario.comprobarPartidaExiste()) {
 
                     System.out.println("2. CARGAR PARTIDA");
 
@@ -62,7 +63,7 @@ public class Main {
         } while (respuestaPartida != 1 && respuestaPartida != 2);
 
 
-        menuOpciones(granja);
+        menuOpciones(granja,diasCont);
 
     }
 
@@ -72,7 +73,7 @@ public class Main {
 
         int numFilHuerto = 0;
         int numColHuerto = 0;
-
+        GestionFBinario.crearFicheroBinario();
 
         int respuestaValores = 0;
         System.out.println("\n ELIGE UNA OPCIÓN");
@@ -169,12 +170,14 @@ public class Main {
 
     }
 
-    public static void menuOpciones(Granja granja){
+    public static void menuOpciones(Granja granja, int diasCont){
 
         boolean cultivosAtendidos=false;
         Scanner sc=new Scanner(System.in);
         int respuesta=0;
         boolean salida=false;
+        int diasPorEstacion=GestionFicheros.sacarDiasEstacion();
+
         do {
 
 
@@ -192,10 +195,20 @@ public class Main {
 
         switch (respuesta){
             case 1:
+                diasCont++;
+                if (diasPorEstacion==diasCont){
+
+
+                    granja.cambiarEstacion();
+                    System.out.print("¡¡¡ Cambio de Estacion a "+granja.getEstacion()+"!!!");
+                    granja.setSemillasDisponibles(GestionFSemillas.semillasDisponibles(granja.getEstacion(),granja.getSemillasPorEstacion()));
+                    diasCont=1;
+
+                }
                 granja.setDiaJuego(granja.getDiaJuego()+1);
                 Tienda.generarNuevaTienda(granja);
                 cultivosAtendidos=false;
-                menuOpciones(granja);
+                menuOpciones(granja, diasCont);
 
 
             break;
@@ -241,7 +254,7 @@ public class Main {
                 break;
 
             case 7:
-
+                GestionFBinario.guardarPartida(granja);
                 salida=true;
                 break;
         }

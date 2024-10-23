@@ -1,11 +1,12 @@
 import com.arquitecturajava.singleton.SingletonProperties;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Granja {
+public class Granja implements Serializable {
     private int diaJuego;
     private Tienda tienda;
     private double presupuesto;
@@ -113,6 +114,27 @@ public class Granja {
         }
         for (Semillas semilla : semillasEliminar) {
             this.getAlmacen().getFrutos().remove(semilla);
+        }
+    }
+
+    public void cambiarEstacion(){
+        Estaciones estacion=getEstacion();
+
+        switch (estacion){
+            case PRIMAVERA:
+                setEstacion(Estaciones.VERANO);
+                break;
+           case VERANO:
+                setEstacion(Estaciones.OTOÑO);
+                break;
+            case OTOÑO :
+                setEstacion(Estaciones.INVIERNO);
+                break;
+            case INVIERNO:
+                setEstacion(Estaciones.PRIMAVERA);
+                break;
+
+
         }
     }
 

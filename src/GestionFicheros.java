@@ -6,23 +6,14 @@ import java.util.Properties;
 
 public class GestionFicheros {
     public static String RUTA_VALORES_POR_DEFECTO="resources"+ File.separator+"default_config.properties";
-    public static String RUTA_JUEGO = "resources" + File.separator + "StardamValley.bin";
     public static String RUTA_VALORES_PERSONALIZADOS="resources"+ File.separator+"personalized_config.properties";
     public static String RUTA_FICHERO_HUERTO="resources"+ File.separator+"huerto.dat";
+    public static String RUTA_JUEGO = "resources" + File.separator + "StardamValley.bin";
 
 
 
 
-    public static boolean comprobarPartidaExiste() {
 
-        Path path = Paths.get(RUTA_JUEGO);
-        if (Files.exists(path)) {
-            return true;
-        } else {
-
-            return false;
-        }
-    }
 
     public static void crearFicheroPropertiesPersonalizado(int numColHuerto, int numFilHuerto, int diasPorEstacion ,double presupuesto, Estaciones estacion){
 

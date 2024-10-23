@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class Almacen {
-    protected List<HashMap<Semillas, Integer>> semillas;
-    protected HashMap<Semillas, Integer> frutos;
+public class Almacen implements Serializable {
+    private List<HashMap<Semillas, Integer>> semillas;
+    private HashMap<Semillas, Integer> frutos;
 
     public Almacen() {
         this.semillas = new ArrayList<>();
@@ -131,7 +132,7 @@ boolean salir=false;
             int cantidad = entry.getValue();
 
 
-            System.out.println("[" + semilla.getNombre() + " - " + cantidad+"]");
+            System.out.print("[" + semilla.getNombre() + " - " + cantidad+"]");
 
 
         }
