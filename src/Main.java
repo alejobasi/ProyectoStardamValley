@@ -233,7 +233,7 @@ public class Main {
                 break;
 
             case 5:
-
+                    granja.venderFrutos();
                 break;
 
             case 6:

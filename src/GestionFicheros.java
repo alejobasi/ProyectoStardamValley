@@ -132,6 +132,29 @@ public class GestionFicheros {
         return numFila;
     }
 
+    public static int sacarDiasEstacion(){
+        Properties properties= new Properties();
+        int diasEstacion;
+        if (Files.exists(Path.of(RUTA_VALORES_PERSONALIZADOS))){
+            try {
+                properties.load(new FileInputStream(RUTA_VALORES_PERSONALIZADOS));
+                diasEstacion=Integer.parseInt(properties.getProperty("duracionDiasEstacion"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }else {
+            try {
+                properties.load(new FileInputStream(RUTA_VALORES_POR_DEFECTO));
+                diasEstacion=Integer.parseInt(properties.getProperty("duracionDiasEstacion"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return diasEstacion;
+    }
+
     public static void mostrarGranja(Granja granja){
         System.out.println("INFORMACIÓN DE LA GRNAJA: ");
         System.out.println(" - Día de juego: "+granja.getDiaJuego());

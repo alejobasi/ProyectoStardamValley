@@ -1,5 +1,6 @@
 import com.arquitecturajava.singleton.SingletonProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -96,6 +97,24 @@ public class Granja {
         this.almacen = almacen;
     }
 
+
+    public void venderFrutos(){
+
+        List<Semillas> semillasEliminar = new ArrayList<>();
+        for (Map.Entry<Semillas, Integer> entry : this.getAlmacen().getFrutos().entrySet()) {
+
+            Semillas semilla = entry.getKey();
+            int cantidad = entry.getValue();
+
+            this.setPresupuesto(this.presupuesto+semilla.getPrecioVenta()*cantidad);
+
+
+        semillasEliminar.add(semilla);
+        }
+        for (Semillas semilla : semillasEliminar) {
+            this.getAlmacen().getFrutos().remove(semilla);
+        }
+    }
 
 }
 

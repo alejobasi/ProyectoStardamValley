@@ -26,10 +26,24 @@ public class Almacen {
     }
 
     public void agregarSemilla(Semillas semilla, Integer cant) {
-        HashMap<Semillas, Integer> mapaSemillas = new HashMap<>();
-        mapaSemillas.put(semilla, cant);
-        this.semillas.add(mapaSemillas);
+        boolean existe = false;
+        for (HashMap<Semillas, Integer> mapa : semillas) {
+            if (mapa.containsKey(semilla)) {
+                int cantidadActual = mapa.get(semilla);
+                mapa.put(semilla, cantidadActual + cant);
+                existe = true;
+                break;
+            }
+        }
+
+
+        if (!existe) {
+            HashMap<Semillas, Integer> nuevoMapa = new HashMap<>();
+            nuevoMapa.put(semilla, cant);
+            semillas.add(nuevoMapa);
+        }
     }
+
 
     public Semillas elegirSemillaPlantar() {
         int index = 1;
@@ -96,6 +110,7 @@ boolean salir=false;
 
                 if (this.frutos.containsKey(sem)) {
                     int cantidadActual = this.frutos.get(sem);
+
                     this.frutos.put(sem, cantidadActual + cantidad);
                 } else {
                     this.frutos.put(sem, cantidad);
@@ -115,11 +130,13 @@ boolean salir=false;
             Semillas semilla = entry.getKey();
             int cantidad = entry.getValue();
 
-            // Mostrar el nombre de la semilla y la cantidad de frutos
+
             System.out.println("[" + semilla.getNombre() + " - " + cantidad+"]");
 
 
         }
+
+
     }
 
 
