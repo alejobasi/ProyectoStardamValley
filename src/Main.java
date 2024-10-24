@@ -106,7 +106,7 @@ public class Main {
                         "Estación: " + granja.getEstacion());
 
 
-                GestionFHuerto.crearHuerto(numColHuerto,numFilHuerto);
+                GestionFHuerto.crearHuerto();
 
             } else if (respuestaValores == 2) {
                 int numCol=0;
@@ -181,7 +181,7 @@ public class Main {
                 GestionFicheros.crearFicheroPropertiesPersonalizado(numColHuerto,numFilHuerto,granja.getDiasPorEstacion(), granja.getPresupuesto(), granja.getEstacion());
                 granja.setSemillasDisponibles(GestionFSemillas.semillasDisponibles(granja.getEstacion(),granja.getSemillasPorEstacion()));
 
-                GestionFHuerto.crearHuerto(numColHuerto,numFilHuerto);
+                GestionFHuerto.crearHuerto();
 
 
             } else {
@@ -235,6 +235,8 @@ public class Main {
 
                     granja.cambiarEstacion();
                     System.out.print("¡¡¡ Cambio de Estacion a "+granja.getEstacion()+"!!!");
+
+                    GestionFHuerto.crearHuerto();
                     granja.setSemillasDisponibles(GestionFSemillas.semillasDisponibles(granja.getEstacion(),granja.getSemillasPorEstacion()));
                     diasCont=1;
 

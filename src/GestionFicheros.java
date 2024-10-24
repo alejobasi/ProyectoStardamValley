@@ -53,6 +53,7 @@ public class GestionFicheros {
 
     }
 
+
     /**
      * Borra todos los archivos creados cuando se crea en la partida
      */

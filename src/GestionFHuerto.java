@@ -2,6 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class GestionFHuerto {
@@ -15,12 +18,14 @@ public class GestionFHuerto {
     public static boolean VALOR_DEFECTO_BOOLEAN=false;
 
 
+
     /**
      * Crea el fichero del huerto con las columnas y filas indicadas
-     * @param numCol
-     * @param numFil
+
      */
-    public static void crearHuerto(int numCol, int numFil){
+    public static void crearHuerto(){
+        int numCol=GestionFicheros.sacarColumnas();
+        int numFil=GestionFicheros.sacarFilas();
         try {
             RandomAccessFile raf=new RandomAccessFile(RUTA_FICHERO, "rw");
             for (int fil=0; fil<numFil; fil++){
