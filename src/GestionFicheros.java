@@ -11,10 +11,15 @@ public class GestionFicheros {
     public static String RUTA_JUEGO = "resources" + File.separator + "StardamValley.bin";
 
 
-
-
-
-
+    /**
+     * Este metodo sirve para crear el fichero de las properties con los valores del usuario,
+     * coge todo los valores y crea el archivo
+     * @param numColHuerto
+     * @param numFilHuerto
+     * @param diasPorEstacion
+     * @param presupuesto
+     * @param estacion
+     */
     public static void crearFicheroPropertiesPersonalizado(int numColHuerto, int numFilHuerto, int diasPorEstacion ,double presupuesto, Estaciones estacion){
 
         Path valoresPorDefecto=Paths.get(RUTA_VALORES_POR_DEFECTO);
@@ -48,6 +53,9 @@ public class GestionFicheros {
 
     }
 
+    /**
+     * Borra todos los archivos creados cuando se crea en la partida
+     */
     public static void borrarNuevaPartida(){
         Path pathHuerto=Paths.get(RUTA_FICHERO_HUERTO);
         Path pathJuego=Paths.get(RUTA_JUEGO);
@@ -77,6 +85,10 @@ public class GestionFicheros {
 
     }
 
+    /**
+     * para sacar el valor de las filas llamando al fichero de properties, ya sea el default o el personalizado
+     * @return
+     */
     public static int sacarFilas(){
         Properties properties= new Properties();
         int numFila;
@@ -99,7 +111,10 @@ public class GestionFicheros {
 
         return numFila;
     }
-
+    /**
+     * para sacar el valor de las columnas llamando al fichero de properties, ya sea el default o el personalizado
+     * @return
+     */
     public static int sacarColumnas(){
         Properties properties= new Properties();
         int numFila;
@@ -122,7 +137,11 @@ public class GestionFicheros {
 
         return numFila;
     }
-
+    /**
+     * para sacar el valor de los dias que dura cada etación llamando al fichero de properties,
+     * ya sea el default o el personalizado
+     * @return
+     */
     public static int sacarDiasEstacion(){
         Properties properties= new Properties();
         int diasEstacion;
@@ -146,16 +165,6 @@ public class GestionFicheros {
         return diasEstacion;
     }
 
-    public static void mostrarGranja(Granja granja){
-        System.out.println("INFORMACIÓN DE LA GRNAJA: ");
-        System.out.println(" - Día de juego: "+granja.getDiaJuego());
-        System.out.println(" - Dinero disponible: "+granja.getPresupuesto());
-        System.out.println(" - Estación: "+granja.getEstacion());
-        System.out.print(" - Semillas en Venta: ");Tienda.mostrarTiendaDiaria(granja);
-        System.out.println("");
-        System.out.println(" - Frutos en almacén : ");granja.getAlmacen().verFrutos();
-        System.out.println(" - Estado del huerto: ");GestionFHuerto.mostrarHuerto();
 
-    }
 
 }

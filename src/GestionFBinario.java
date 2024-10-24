@@ -6,6 +6,10 @@ import java.nio.file.Paths;
 public class GestionFBinario {
     public static String RUTA_JUEGO = "resources" + File.separator + "StardamValley.bin";
 
+    /**
+     * Comprueba si hay una partida guardada, para mostrar o no la opción de Cargar Partida
+     * @return
+     */
     public static boolean comprobarPartidaExiste() {
 
         Path path = Paths.get(RUTA_JUEGO);
@@ -17,6 +21,9 @@ public class GestionFBinario {
         }
     }
 
+    /**
+     * Crea el fichero binario donde se guardan todos los datos de la partida
+     */
     public static void crearFicheroBinario(){
 
         Path path=Paths.get(RUTA_JUEGO);
@@ -28,6 +35,10 @@ public class GestionFBinario {
         }
     }
 
+    /**
+     * Para cuando sales se guarden los progresos, manda el objeto granja al archivo binario
+     * @param granja
+     */
     public static void guardarPartida(Granja granja){
         Path path=Paths.get(RUTA_JUEGO);
 
@@ -40,6 +51,10 @@ public class GestionFBinario {
         }
     }
 
+    /**
+     * Devuelve una partida, ya guarda, para seguir con tu progreso
+     * @return
+     */
     public static Granja cargarParida(){
 
         Granja granja;

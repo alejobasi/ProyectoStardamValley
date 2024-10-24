@@ -98,7 +98,10 @@ public class Granja implements Serializable {
         this.almacen = almacen;
     }
 
-
+    /**
+     * Sirve para vender los frutos que tenemos en el Almacen y ganar dinero,
+     * lo unico que hace es recorrer el HashMap de Frutos y multiplicar la cantidad que se tiene de cada Fruto por el precio de venta
+     */
     public void venderFrutos(){
 
         List<Semillas> semillasEliminar = new ArrayList<>();
@@ -117,6 +120,9 @@ public class Granja implements Serializable {
         }
     }
 
+    /**
+     * Lo unico que hace es cambiar a la siguiente, se ejecuta cuando es justo el tiempo
+     */
     public void cambiarEstacion(){
         Estaciones estacion=getEstacion();
 
@@ -136,6 +142,21 @@ public class Granja implements Serializable {
 
 
         }
+    }
+    /**
+     * Ejecuta los metodos para mostra por pantalla todos los valores de la granja
+     * @param granja
+     */
+    public static void mostrarGranja(Granja granja){
+        System.out.println("INFORMACIÓN DE LA GRNAJA: ");
+        System.out.println(" - Día de juego: "+granja.getDiaJuego());
+        System.out.println(" - Dinero disponible: "+granja.getPresupuesto());
+        System.out.println(" - Estación: "+granja.getEstacion());
+        System.out.print(" - Semillas en Venta: ");Tienda.mostrarTiendaDiaria(granja);
+        System.out.println("");
+        System.out.println(" - Frutos en almacén : ");granja.getAlmacen().verFrutos();
+        System.out.println(" - Estado del huerto: ");GestionFHuerto.mostrarHuerto();
+
     }
 
 }

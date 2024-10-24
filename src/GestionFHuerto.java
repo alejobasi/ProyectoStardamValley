@@ -14,6 +14,12 @@ public class GestionFHuerto {
     public static int VALOR_DEFECTO_ENTERO=-1;
     public static boolean VALOR_DEFECTO_BOOLEAN=false;
 
+
+    /**
+     * Crea el fichero del huerto con las columnas y filas indicadas
+     * @param numCol
+     * @param numFil
+     */
     public static void crearHuerto(int numCol, int numFil){
         try {
             RandomAccessFile raf=new RandomAccessFile(RUTA_FICHERO, "rw");
@@ -39,6 +45,9 @@ public class GestionFHuerto {
 
     }
 
+    /**
+     * Muestra por pantalla los valores del huerto de forma legible para el jugador
+     */
     public static void mostrarHuerto(){
         int numFilas=GestionFicheros.sacarFilas();
         int numCol=GestionFicheros.sacarColumnas();
@@ -92,6 +101,11 @@ public class GestionFHuerto {
                 }
             }
 
+    /**
+     * Comprueba que la columna pasada por parámetro está vacia, para poder cosechar en ella
+     * @param columna
+     * @return
+     */
     public static boolean columnaVacia(int columna){
 
         int numFilas=GestionFicheros.sacarFilas();
@@ -132,6 +146,11 @@ public class GestionFHuerto {
         }
     }
 
+    /**
+     * Planta la semilla indicada en la columna elegida y reescribe el fichero con los nuevos datos
+     * @param sem
+     * @param columna
+     */
     public static void plantarEnColumna(Semillas sem, int columna){
         int numFilas=GestionFicheros.sacarFilas();
         int numCol=GestionFicheros.sacarColumnas();
@@ -164,6 +183,12 @@ public class GestionFHuerto {
 
     }
 
+    /**
+     * Devuelve un True o un False dependiendo si la semilla ha llegado al tiempo indicado para recogerse
+     * @param idSemilla
+     * @param tiempo
+     * @return
+     */
     public static boolean semillaTiempo(int idSemilla,int tiempo){
         boolean resultado=false;
         List<Semillas>listaSemillas=GestionFSemillas.cargarSemillas();
@@ -177,6 +202,10 @@ public class GestionFHuerto {
         return resultado;
     }
 
+    /**
+     * Sirve para regar los cultivos, pone todos los false a true y avanza en un día el parámetro para contar los días que lleva plantado
+     * @param granja
+     */
     public static void atenderCultivos(Granja granja){
         int numFilas=GestionFicheros.sacarFilas();
         int numCol=GestionFicheros.sacarColumnas();
@@ -200,12 +229,10 @@ public class GestionFHuerto {
                             int tiempo=raf.readInt();
                             boolean semillaTerminada=semillaTiempo(idSemilla,tiempo);
 
-                            System.out.println("Tiempo"+tiempo);
+
 
                             if (semillaTerminada==true){
-                                System.out.println("True");
-                            }else {
-                                System.out.println("False");
+                                System.out.println("!!FRUTOS RECOGIDOS!!");
                             }
 
                             if (semillaTerminada){

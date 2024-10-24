@@ -30,6 +30,10 @@ public class Tienda implements Serializable {
         this.tiendaDiaria = tiendaDiaria;
     }
 
+    /**
+     * Genera una nueva tienda, con las semillas disponibles de esa estación
+     * @param granja
+     */
     public static void generarNuevaTienda(Granja granja){
 
 
@@ -62,10 +66,14 @@ List<Semillas>disponibles=granja.getSemillasDisponibles();
 
     }
 
+    /**
+     * Compra todos las semillas de la tienda, que podamos con nuestro presupuesto actual
+     * @param granja
+     */
     public static void comprarTiendaDiaria(Granja granja){
-
+        int numSemillas=GestionFicheros.sacarColumnas();
         System.out.println("Tienda Diaria:");
-        System.out.println("(Por cada compra se adquieren 3 semillas)");
+        System.out.println("(Por cada compra se adquieren la cantidad de columnas )");
 
 
 
@@ -75,12 +83,12 @@ List<Semillas>disponibles=granja.getSemillasDisponibles();
        while (iterator.hasNext()){
         Semillas semilla=iterator.next();
             if (semilla.getPrecioCompra()*3>granja.getPresupuesto()){
-                System.out.println("Semilla: "+ semilla.getNombre() +" Precio: "+semilla.getPrecioCompra() * NUM_SEMILLAS_TIENDA+" - No tienes suficiente presupuesto.");
+                System.out.println("Semilla: "+ semilla.getNombre() +" Precio: "+semilla.getPrecioCompra() * numSemillas+" - No tienes suficiente presupuesto.");
             }
             else {
-                System.out.println(" Semilla: " + semilla.getNombre() + " Precio: " + semilla.getPrecioCompra() * NUM_SEMILLAS_TIENDA+": Comprada");
+                System.out.println(" Semilla: " + semilla.getNombre() + " Precio: " + semilla.getPrecioCompra() * numSemillas+": Comprada");
                 granja.setPresupuesto(granja.getPresupuesto()-semilla.getPrecioCompra()*3);
-                granja.getAlmacen().agregarSemilla(semilla,NUM_SEMILLAS_TIENDA);
+                granja.getAlmacen().agregarSemilla(semilla,numSemillas);
 
                 iterator.remove();
             }
@@ -93,7 +101,11 @@ List<Semillas>disponibles=granja.getSemillasDisponibles();
 
         }
 
-        public static void mostrarTiendaDiaria(Granja granja){
+    /**
+     * Muestra las semillas que están en venta en la Tienda
+     * @param granja
+     */
+    public static void mostrarTiendaDiaria(Granja granja){
             Iterator<Semillas> iterator = granja.getTienda().getTiendaDiaria().iterator();
 
             while (iterator.hasNext()){
@@ -111,9 +123,5 @@ List<Semillas>disponibles=granja.getSemillasDisponibles();
 
 
 
-    public static void tienda(Granja granja){
 
-        comprarTiendaDiaria(granja);
-
-    }
 }

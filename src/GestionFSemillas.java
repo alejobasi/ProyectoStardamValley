@@ -18,6 +18,10 @@ public class GestionFSemillas {
 
     public static String RUTA_FICHERO_XML="resources"+File.separator+"semillas.xml";
 
+    /**
+     * recogemos en una lista todas las semillas del fichero semillas.xml y las retornamos
+     * @return
+     */
     public static List<Semillas> cargarSemillas(){
         List<Semillas> semillas = new ArrayList<>();
         try {
@@ -60,6 +64,11 @@ public class GestionFSemillas {
 return semillas;
     }
 
+    /**
+     * Devuelve un Mapa con las semillas divididas por su estación o estaciones
+     * @param semillas
+     * @return
+     */
     public static Map<Semillas, List<Estaciones>> semillasporEstacion(List<Semillas>semillas){
 Map mapa=new HashMap();
         for (Semillas semilla: semillas){
@@ -91,6 +100,13 @@ Map mapa=new HashMap();
     return mapa;
 
     }
+
+    /**
+     * Devuelve una lista de Semillas dependiendo la estación en la que estés
+     * @param estacion
+     * @param mapa
+     * @return
+     */
     public static List<Semillas>semillasDisponibles(Estaciones estacion, Map<Semillas, List<Estaciones>> mapa){
 
         List<Semillas> SemillasDisponibles=new ArrayList<>();

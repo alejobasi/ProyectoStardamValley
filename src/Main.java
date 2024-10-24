@@ -67,6 +67,10 @@ public class Main {
 
     }
 
+    /**
+     * Hace las funciones para que se cree una nueva partida, borra si hay archivos creados y hace las demás funciones
+     * @param granja
+     */
     public static void nuevaPartida(Granja granja){
         GestionFicheros.borrarNuevaPartida();
         Scanner sc = new Scanner(System.in);
@@ -105,23 +109,42 @@ public class Main {
                 GestionFHuerto.crearHuerto(numColHuerto,numFilHuerto);
 
             } else if (respuestaValores == 2) {
-
+                int numCol=0;
+                int numFil=0;
+                int diasEstacion=0;
+                double presupuesto=0;
                 System.out.println(" INDICA TUS VALORES\n" +
                         "--------------------");
                 sc.nextLine();
-                System.out.print("Numero de Columnas del Huerto: ");
-                int numCol=sc.nextInt();
-                System.out.print("Numero de Filas del Huerto: ");
-                int numFil=sc.nextInt();
-                System.out.print("Dias que dura cada Estacion: ");
-                int diasEstacion=sc.nextInt();
-                System.out.print("Presupuesto Inicial: ");
-                double presupuesto=sc.nextDouble();
+
+                do {
+                    System.out.print("Numero de Columnas del Huerto (MAX:50) (MIN:1) : ");
+
+                    numCol=sc.nextInt();
+                }while (numCol<1||numCol>50);
+                do {
+
+                    System.out.print("Numero de Filas del Huerto (MAX:50) (MIN:1) :");
+                     numFil=sc.nextInt();
+
+                 }while (numFil<1||numFil>50);
+
+                do {
+                    System.out.print("Dias que dura cada Estacion: (MAX:80) (MIN:2)");
+                     diasEstacion=sc.nextInt();
+                }while (diasEstacion<2||diasEstacion>80);
+
+                do {
+                System.out.print("Presupuesto Inicial: (MAX:50000)");
+                 presupuesto=sc.nextDouble();
+                }while (presupuesto<0||presupuesto>500000);
+
                 int numEstacion=0;
+                boolean validacion;
                 do {
 
 
-
+                    validacion = true;
                     int ind=1;
                     for (Estaciones estaciones:Estaciones.values()){
                         System.out.println(ind+". "+estaciones);
@@ -130,6 +153,11 @@ public class Main {
                     System.out.print("Elige el numero de la Estacion");
                     numEstacion=sc.nextInt();
 
+                    if (numEstacion < 1 || numEstacion > 4) {
+                        validacion=false;
+                    }
+
+                }while (!validacion);
                     switch (numEstacion){
                         case 1:
                             granja.setEstacion(Estaciones.PRIMAVERA);
@@ -145,7 +173,7 @@ public class Main {
                             break;
                     }
 
-                }while (numEstacion<1&&numEstacion>4);
+
                 numColHuerto=numCol;
                 numFilHuerto=numFil;
                 granja.setDiasPorEstacion( diasEstacion);
@@ -170,6 +198,12 @@ public class Main {
 
     }
 
+    /**
+     *
+     * Es el crud donde se muestran las opciones, es donde el usuario interactua
+     * @param granja donde se guarda todo
+     * @param diasCont para el cambio de estacion
+     */
     public static void menuOpciones(Granja granja, int diasCont){
 
         boolean cultivosAtendidos=false;
@@ -214,7 +248,7 @@ public class Main {
             break;
 
             case 2:
-               Tienda.tienda(granja);
+               Tienda.comprarTiendaDiaria(granja);;
                 break;
 
             case 3:
@@ -250,7 +284,7 @@ public class Main {
                 break;
 
             case 6:
-                GestionFicheros.mostrarGranja(granja);
+                Granja.mostrarGranja(granja);
                 break;
 
             case 7:

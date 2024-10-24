@@ -26,6 +26,11 @@ public class Almacen implements Serializable {
         this.frutos = frutos;
     }
 
+    /**
+     * Añade las semillas compradas de la tienda, al List de Semillas del Almacén, con la cantidad de ellas
+     * @param semilla
+     * @param cant
+     */
     public void agregarSemilla(Semillas semilla, Integer cant) {
         boolean existe = false;
         for (HashMap<Semillas, Integer> mapa : semillas) {
@@ -45,7 +50,10 @@ public class Almacen implements Serializable {
         }
     }
 
-
+    /**
+     * Este método sirve para elegir de las semillas que tenemos disponibles en nuestro Almacén para plantar
+     * @return
+     */
     public Semillas elegirSemillaPlantar() {
         int index = 1;
         Scanner sc = new Scanner(System.in);
@@ -74,8 +82,12 @@ public class Almacen implements Serializable {
         }
     }
 
+    /**
+     * Aquí restaremos la semilla que hemos plantado, a nuestra List de Semillas del Almacén
+     * @param sem
+     */
     public void restarSemillaAlmacen(Semillas sem){
-int cantidad;
+int cantidad=GestionFicheros.sacarColumnas();
 boolean salir=false;
         for (HashMap<Semillas, Integer> mapa : this.semillas) {
 
@@ -85,7 +97,7 @@ boolean salir=false;
 
                     int resta=mapa.get(sem);
 
-                    resta=resta-1;
+                    resta=resta-cantidad;
 
                     if (resta>0){
                         mapa.put(sem,resta);
@@ -100,6 +112,10 @@ boolean salir=false;
         }
     }
 
+    /**
+     * Aquí guardaremos los frutos ya cosechados, en nuestro HashMap del Almacén
+     * @param idSemilla
+     */
     public void anadirFrutoAlmacen(int idSemilla){
         Random random = new Random();
         List<Semillas>listaSemillas=GestionFSemillas.cargarSemillas();
@@ -122,6 +138,9 @@ boolean salir=false;
 
     }
 
+    /**
+     * Muestra por pantalla los frutos que tenemos almacenados
+     */
     public void verFrutos() {
 
 
