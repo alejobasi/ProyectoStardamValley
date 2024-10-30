@@ -218,12 +218,9 @@ public class Main {
         System.out.println("\n STARDAM VALLEY\n" +
                           "---------------------");
         System.out.println("1. INICIAR NUEVO DIA");
-        System.out.println("2. TIENDA");
-        System.out.println("3. ATENDER CULTIVOS");
-        System.out.println("4. PLANTAR CULTIVOS EN COLUMNA");
-        System.out.println("5. VENDER COSECHA");
-        System.out.println("6. MOSTRAR INFORMACIÓN DE LA GRANJA");
-        System.out.println("7. SALIR");
+        System.out.println("2. HUERTO");
+        System.out.println("3. ESTABLO");
+        System.out.println("4. SALIR");
 
         respuesta=sc.nextInt();
 
@@ -250,52 +247,99 @@ public class Main {
             break;
 
             case 2:
-               Tienda.comprarTiendaDiaria(granja);;
+               huertoOpciones(granja);
                 break;
 
             case 3:
-                if (!cultivosAtendidos){
-                    GestionFHuerto.atenderCultivos(granja);
-                    cultivosAtendidos=true;
-                }else {
-                    System.out.println("Los cultivos ya están atendidos");
-                }
 
                 break;
 
             case 4:
-                System.out.println("Dime en que columna vas a plantar: ");
-                int columna=sc.nextInt();
-                if (GestionFHuerto.columnaVacia(columna)){
-                    if (granja.getAlmacen().getSemillas().isEmpty()){
-                        System.out.println("No hay semillas para plantar");
-                    }else {
-                Semillas sem=granja.getAlmacen().elegirSemillaPlantar();
-                    GestionFHuerto.plantarEnColumna(sem,columna);
 
-                    }
-                }else {
-                    System.out.println("Columna Plantada");
-                }
-
-
-                break;
-
-            case 5:
-                    granja.venderFrutos();
-                break;
-
-            case 6:
-                Granja.mostrarGranja(granja);
-                break;
-
-            case 7:
                 GestionFBinario.guardarPartida(granja);
                 salida=true;
+
                 break;
+
+
+
         }
 
-    }while (respuesta>1&&respuesta<7&&!salida);
+    }while (respuesta>1&&respuesta<4&&!salida);
+
+    }
+
+    public static void huertoOpciones(Granja granja){
+        boolean cultivosAtendidos=false;
+        Scanner sc=new Scanner(System.in);
+        int respuesta=0;
+        boolean salida=false;
+
+        do {
+
+
+            System.out.println("\n STARDAM VALLEY\n" +
+                    "---------------------");
+
+            System.out.println("1. TIENDA");
+            System.out.println("2. ATENDER CULTIVOS");
+            System.out.println("3. PLANTAR CULTIVOS EN COLUMNA");
+            System.out.println("4. VENDER COSECHA");
+            System.out.println("5. MOSTRAR INFORMACIÓN DE LA GRANJA");
+            System.out.println("6. SALIR");
+
+            respuesta=sc.nextInt();
+
+            switch (respuesta){
+
+
+                case 1:
+                    Tienda.comprarTiendaDiaria(granja);;
+                    break;
+
+                case 2:
+                    if (!cultivosAtendidos){
+                        GestionFHuerto.atenderCultivos(granja);
+                        cultivosAtendidos=true;
+                    }else {
+                        System.out.println("Los cultivos ya están atendidos");
+                    }
+
+                    break;
+
+                case 3:
+                    System.out.println("Dime en que columna vas a plantar: ");
+                    int columna=sc.nextInt();
+                    if (GestionFHuerto.columnaVacia(columna)){
+                        if (granja.getAlmacen().getSemillas().isEmpty()){
+                            System.out.println("No hay semillas para plantar");
+                        }else {
+                            Semillas sem=granja.getAlmacen().elegirSemillaPlantar();
+                            GestionFHuerto.plantarEnColumna(sem,columna);
+
+                        }
+                    }else {
+                        System.out.println("Columna Plantada");
+                    }
+
+
+                    break;
+
+                case 4:
+                    granja.venderFrutos();
+                    break;
+
+                case 5:
+                    Granja.mostrarGranja(granja);
+                    break;
+
+                case 6:
+                    GestionFBinario.guardarPartida(granja);
+                    salida=true;
+                    break;
+            }
+
+        }while (respuesta>1&&respuesta<6&&!salida);
 
     }
 }
