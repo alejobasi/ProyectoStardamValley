@@ -16,6 +16,7 @@ public class Granja implements Serializable {
     private Map<Semillas,List<Estaciones>> semillasPorEstacion;
     private Map semillasPorId;
     private Almacen almacen;
+    private Establo establo;
 
 
     public Granja() {
@@ -23,6 +24,7 @@ public class Granja implements Serializable {
         tienda=new Tienda();
         semillasPorEstacion=GestionFSemillas.semillasporEstacion(GestionFSemillas.cargarSemillas());
         almacen=new Almacen();
+        establo=new Establo();
 
     }
 
@@ -96,6 +98,14 @@ public class Granja implements Serializable {
 
     public void setAlmacen(Almacen almacen) {
         this.almacen = almacen;
+    }
+
+    public Establo getEstablo() {
+        return establo;
+    }
+
+    public void setEstablo(Establo establo) {
+        this.establo = establo;
     }
 
     /**

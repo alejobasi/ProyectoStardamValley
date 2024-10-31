@@ -32,6 +32,7 @@ public class Main {
 
         if (GestionFBinario.comprobarPartidaExiste()) {
             System.out.println("2. CARGAR PARTIDA");
+
         }
         int respuestaPartida = 0;
         do {
@@ -73,6 +74,7 @@ public class Main {
      */
     public static void nuevaPartida(Granja granja){
         GestionFicheros.borrarNuevaPartida();
+        GestionBBDD.recogerAnimales(granja);
         Scanner sc = new Scanner(System.in);
 
         int numFilHuerto = 0;
@@ -251,7 +253,7 @@ public class Main {
                 break;
 
             case 3:
-
+                establoOpciones(granja);
                 break;
 
             case 4:
@@ -273,12 +275,12 @@ public class Main {
         boolean cultivosAtendidos=false;
         Scanner sc=new Scanner(System.in);
         int respuesta=0;
-        boolean salida=false;
+        boolean salida2=false;
 
         do {
 
 
-            System.out.println("\n STARDAM VALLEY\n" +
+            System.out.println("\n HUERTO\n" +
                     "---------------------");
 
             System.out.println("1. TIENDA");
@@ -334,13 +336,67 @@ public class Main {
                     break;
 
                 case 6:
-                    GestionFBinario.guardarPartida(granja);
-                    salida=true;
+
+                    salida2=true;
                     break;
             }
 
-        }while (respuesta>1&&respuesta<6&&!salida);
+        }while (respuesta>1&&respuesta<6&&!salida2);
 
+    }
+
+    public static void establoOpciones(Granja granja){
+        Scanner sc=new Scanner(System.in);
+        int respuesta=0;
+        boolean salida3=false;
+
+        do {
+
+
+            System.out.println("\n ESTABLO\n" +
+                    "---------------------");
+
+            System.out.println("1. PRODUCIR");
+            System.out.println("2. ALIMENTAR");
+            System.out.println("3. VENDER PRODUCTOS");
+            System.out.println("4. RELLENAR COMEDERO");
+            System.out.println("5. MOSTRAR ANIMALES");
+            System.out.println("6. SALIR");
+
+            respuesta=sc.nextInt();
+
+            switch (respuesta){
+
+
+                case 1:
+
+
+                case 2:
+
+
+                    break;
+
+                case 3:
+
+
+
+                    break;
+
+                case 4:
+                    granja.getEstablo().rellenarComedero(granja);
+                    break;
+
+                case 5:
+                    granja.getEstablo().mostrarEstablo();
+                    break;
+
+                case 6:
+
+                    salida3=true;
+                    break;
+            }
+
+        }while (respuesta>1&&respuesta<6&&!salida3);
     }
 }
 

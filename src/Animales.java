@@ -1,4 +1,6 @@
-public class Animales {
+import java.io.Serializable;
+
+public class Animales implements Serializable {
     private int id;
     private Animal tipo;
     private String nombre;

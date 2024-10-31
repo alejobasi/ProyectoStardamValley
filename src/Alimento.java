@@ -1,10 +1,12 @@
-public class Alimento {
+import java.io.Serializable;
+
+public class Alimento implements Serializable {
 
     private int id;
     private String nombre;
-    private int precio;
+    private double precio;
 
-    public Alimento(int id, String nombre, int precio) {
+    public Alimento(int id, String nombre, double precio) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
@@ -26,7 +28,7 @@ public class Alimento {
         this.nombre = nombre;
     }
 
-    public int getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
