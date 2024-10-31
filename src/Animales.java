@@ -5,6 +5,7 @@ public class Animales implements Serializable {
     private Animal tipo;
     private String nombre;
     private int dia_insercion;
+    private boolean alimentado;
     private Alimento alimento;
     private Producto producto;
 
@@ -12,6 +13,7 @@ public class Animales implements Serializable {
         this.id = id;
         this.tipo = tipo;
         this.nombre = nombre;
+        this.alimentado=false;
         this.dia_insercion = dia_insercion;
         this.alimento = alimento;
         this.producto = producto;

@@ -1,44 +1,24 @@
 import com.arquitecturajava.singleton.SingletonBBDDProperties;
-import com.arquitecturajava.singleton.SingletonProperties;
 
-import javax.swing.*;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GestionBBDD {
+    private static GestionBBDD instancia;
+    private Connection conn;
 
+    SingletonBBDDProperties sp = SingletonBBDDProperties.getInstancia();
+    private String url = sp.getPropiedad("DB_URL");
+    private String usuario = sp.getPropiedad("DB_USER");
+    private String contrasena = sp.getPropiedad("DB_PASS");
+    private String database = sp.getPropiedad("DB_NAME");
 
-
-    public static List<Alimento> recogerAlimentos(){
-        List<Alimento>alimentos=new ArrayList<>();
-
-        SingletonBBDDProperties sp= SingletonBBDDProperties.getInstancia();
-        String url= sp.getPropiedad("DB_URL");
-        String usuario= sp.getPropiedad("DB_USER");
-        String contrasena= sp.getPropiedad("DB_PASS");
-        String database= sp.getPropiedad("DB_NAME");
-
-
-
+    private GestionBBDD() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn= DriverManager.getConnection(url+database,usuario,contrasena);
-
-            PreparedStatement stmt= conn.prepareStatement("Select * from alimentos");
-            ResultSet rs=stmt.executeQuery();
-
-            while (rs.next()){
-                int id_alimento=rs.getInt("id");
-
-                    String nombre_alimento=rs.getString("nombre");
-                    double precio=rs.getDouble("precio");
-                    Alimento alimento=new Alimento(id_alimento,nombre_alimento,precio);
-                    alimentos.add(alimento);
-
-
-            }
-return alimentos;
+            conn = DriverManager.getConnection(url + database, usuario, contrasena);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
@@ -47,64 +27,93 @@ return alimentos;
 
     }
 
+    public static GestionBBDD getInstance() {
+        if (instancia == null) {
+            instancia = new GestionBBDD();
+        }
+        return instancia;
+    }
 
-    public static Alimento recogerAlimentoporId(int id){
-        SingletonBBDDProperties sp= SingletonBBDDProperties.getInstancia();
-        String url= sp.getPropiedad("DB_URL");
-        String usuario= sp.getPropiedad("DB_USER");
-        String contrasena= sp.getPropiedad("DB_PASS");
-        String database= sp.getPropiedad("DB_NAME");
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
+    public static List<Alimento> recogerAlimentos() {
+        List<Alimento> alimentos = new ArrayList<>();
 
 
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn= DriverManager.getConnection(url+database,usuario,contrasena);
 
-            PreparedStatement stmt= conn.prepareStatement("Select * from alimentos");
-            ResultSet rs=stmt.executeQuery();
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
 
-            while (rs.next()){
-                int id_alimento=rs.getInt("id");
-                if (id_alimento==id){
-                String nombre_alimento=rs.getString("nombre");
-                double precio=rs.getDouble("precio");
-                Alimento alimento=new Alimento(id_alimento,nombre_alimento,precio);
-                return alimento;
+            PreparedStatement stmt = conn.prepareStatement("Select * from alimentos");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id_alimento = rs.getInt("id");
+
+                String nombre_alimento = rs.getString("nombre");
+                double precio = rs.getDouble("precio");
+                Alimento alimento = new Alimento(id_alimento, nombre_alimento, precio);
+                alimentos.add(alimento);
+
+
+            }
+            return alimentos;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    public static Alimento recogerAlimentoporId(int id) {
+
+
+
+        try {
+
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
+
+            PreparedStatement stmt = conn.prepareStatement("Select * from alimentos");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id_alimento = rs.getInt("id");
+                if (id_alimento == id) {
+                    String nombre_alimento = rs.getString("nombre");
+                    double precio = rs.getDouble("precio");
+                    Alimento alimento = new Alimento(id_alimento, nombre_alimento, precio);
+                    return alimento;
                 }
 
             }
 
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
     }
 
-    public static Producto recogerProductoporId(int id){
-        SingletonBBDDProperties sp= SingletonBBDDProperties.getInstancia();
-        String url= sp.getPropiedad("DB_URL");
-        String usuario= sp.getPropiedad("DB_USER");
-        String contrasena= sp.getPropiedad("DB_PASS");
-        String database= sp.getPropiedad("DB_NAME");
-
-
+    /*public static Producto recogerProductoporId(int id) {
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn= DriverManager.getConnection(url+database,usuario,contrasena);
+            PreparedStatement stmt = conn.prepareStatement("Select * from productos");
+            ResultSet rs = stmt.executeQuery();
 
-            PreparedStatement stmt= conn.prepareStatement("Select * from productos");
-            ResultSet rs=stmt.executeQuery();
-
-            while (rs.next()){
-                int id_producto=rs.getInt("id");
-                if (id_producto==id){
-                    String nombre_producto=rs.getString("nombre");
-                    double precio=rs.getDouble("precio");
-                    Producto producto=new Producto(id_producto,nombre_producto,precio);
+            while (rs.next()) {
+                int id_producto = rs.getInt("id");
+                if (id_producto == id) {
+                    String nombre_producto = rs.getString("nombre");
+                    double precio = rs.getDouble("precio");
+                    Producto producto = new Producto(id_producto, nombre_producto, precio);
                     return producto;
                 }
 
@@ -116,36 +125,38 @@ return alimentos;
             throw new RuntimeException(e);
         }
         return null;
-    }
+    }*/
 
     public static void recogerAnimales(Granja granja) {
 
         List<Animales> lista = new ArrayList<>();
 
-        SingletonBBDDProperties sp = SingletonBBDDProperties.getInstancia();
-        String url = sp.getPropiedad("DB_URL");
-        String usuario = sp.getPropiedad("DB_USER");
-        String contrasena = sp.getPropiedad("DB_PASS");
-        String database = sp.getPropiedad("DB_NAME");
-
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(url + database, usuario, contrasena);
 
-            PreparedStatement stmt = conn.prepareStatement("Select * from animales");
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
+
+            PreparedStatement stmt = conn.prepareStatement("Select * from animales a JOIN alimentos al ON a.id_alimento=al.id JOIN productos p ON a.id_producto=p.id");
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                Animal tipo = Animal.valueOf(rs.getString("tipo"));
-                String nombre = rs.getString("nombre");
-                int dia_insercion = rs.getInt("dia_insercion");
-                int peso = rs.getInt("peso");
-                int id_alimneto = rs.getInt("id_alimento");
-                int id_producto = rs.getInt("id_producto");
+                int id = rs.getInt("a.id");
+                Animal tipo = Animal.valueOf(rs.getString("a.tipo"));
+                String nombre = rs.getString("a.nombre");
+                int dia_insercion = rs.getInt("a.dia_insercion");
+                int peso = rs.getInt("a.peso");
 
-                Alimento alimento = recogerAlimentoporId(id_alimneto);
-                Producto producto = recogerProductoporId(id_producto);
+                int id_alimento = rs.getInt("al.id");
+                String nombre_alimento = rs.getString("al.nombre");
+                double precio_alimento = rs.getDouble("al.precio");
+
+                int id_producto = rs.getInt("p.id");
+                String nombre_producto = rs.getString("p.nombre");
+                double precio_producto = rs.getDouble("p.precio");
+
+
+                Alimento alimento = new Alimento(id_alimento,nombre_alimento,precio_alimento);
+                Producto producto = new Producto(id_producto,nombre_producto,precio_producto);
                 if (tipo == Animal.VACA) {
                     Vaca vaca = new Vaca(id, tipo, nombre, dia_insercion, alimento, producto, peso);
                     lista.add(vaca);
@@ -160,24 +171,17 @@ return alimentos;
             }
             granja.getEstablo().setAnimales(lista);
 
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
     }
+
     public static int recogerCantidadAlimeto(int id) {
-        SingletonBBDDProperties sp = SingletonBBDDProperties.getInstancia();
-        String url = sp.getPropiedad("DB_URL");
-        String usuario = sp.getPropiedad("DB_USER");
-        String contrasena = sp.getPropiedad("DB_PASS");
-        String database = sp.getPropiedad("DB_NAME");
-
-
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(url + database, usuario, contrasena);
+
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
 
             PreparedStatement stmt = conn.prepareStatement("Select * from alimentos");
             ResultSet rs = stmt.executeQuery();
@@ -185,13 +189,11 @@ return alimentos;
             while (rs.next()) {
                 int id_alimento = rs.getInt("id");
                 if (id_alimento == id) {
-                     int cantidad= rs.getInt("cantidad_disponible");
+                    int cantidad = rs.getInt("cantidad_disponible");
                     return cantidad;
                 }
             }
 
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -199,33 +201,50 @@ return alimentos;
         return 0;
     }
 
-    public static void rellenarCantidadAlimento(int id_alimeto){
-        SingletonBBDDProperties sp = SingletonBBDDProperties.getInstancia();
-        String url = sp.getPropiedad("DB_URL");
-        String usuario = sp.getPropiedad("DB_USER");
-        String contrasena = sp.getPropiedad("DB_PASS");
-        String database = sp.getPropiedad("DB_NAME");
-
-
+    public static void rellenarCantidadAlimento(int id_alimeto) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(url + database, usuario, contrasena);
 
-            String query="Update alimentos Set cantidad_disponible = ? where id=?";
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
+
+            String query = "Update alimentos Set cantidad_disponible = ? where id=?";
             PreparedStatement stmt = conn.prepareStatement(query);
 
-            stmt.setInt(1,25);
+
+            stmt.setInt(1, 25);
             stmt.setInt(2, id_alimeto);
             stmt.executeUpdate();
+
+
             stmt.close();
-            conn.close();
-    }
-        catch (ClassNotFoundException e) {
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
+
+        }
+
+
+    }
+    public static void transsaccionesCompra( double precio){
+
+        try {
+
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
+            String query2 = "INSERT INTO transacciones (tipo_transaccion,tipo_elemento,precio,fecha_transaccion) VALUES(?,?,?,?)";
+            PreparedStatement stmt2 = conn.prepareStatement(query2);
+
+            stmt2.setString(1, Transaccion.COMPRA.toString());
+            stmt2.setString(2, Elemento.ALIMENTO.toString());
+            stmt2.setDouble(3, precio);
+            stmt2.setString(4, LocalDateTime.now().toString());
+
+            stmt2.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-}
+    }
 }
 
 

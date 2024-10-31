@@ -12,6 +12,8 @@ public class Alimento implements Serializable {
         this.precio = precio;
     }
 
+
+
     public int getId() {
         return id;
     }

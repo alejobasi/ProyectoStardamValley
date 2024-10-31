@@ -45,6 +45,7 @@ public class Establo implements Serializable {
         List<Alimento>listaAlimentos=GestionBBDD.recogerAlimentos();
         int cantidadMax=25;
         double presupuestoPrimero=granja.getPresupuesto();
+        double presupuestoFinal;
         for (Alimento al:listaAlimentos){
             int cantidad=GestionBBDD.recogerCantidadAlimeto(al.getId());
             if (cantidad<25){
@@ -58,7 +59,15 @@ public class Establo implements Serializable {
 
             }
         }
-        System.out.println("Has gastado en total: "+(presupuestoPrimero- granja.getPresupuesto()));
+        presupuestoFinal=presupuestoPrimero- granja.getPresupuesto();
+        System.out.println("Has gastado en total: "+(presupuestoFinal));
+
+        GestionBBDD.transsaccionesCompra(presupuestoFinal);
+
+
+    }
+
+    public void alimentar(Granja granja){
 
 
     }

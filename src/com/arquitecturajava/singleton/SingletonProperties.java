@@ -8,6 +8,8 @@ import java.util.Properties;
 public class SingletonProperties {
     public static String RUTA_VALORES_PRE="resources"+ File.separator+"default_config.properties";
     private static SingletonProperties instancia=null;
+
+
     private Properties p;
     public SingletonProperties() {
 

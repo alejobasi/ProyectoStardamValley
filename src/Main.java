@@ -346,6 +346,7 @@ public class Main {
     }
 
     public static void establoOpciones(Granja granja){
+        boolean animalesAlimemtados=false;
         Scanner sc=new Scanner(System.in);
         int respuesta=0;
         boolean salida3=false;
@@ -372,6 +373,7 @@ public class Main {
 
 
                 case 2:
+                    animalesAlimemtados=true;
 
 
                     break;
