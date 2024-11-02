@@ -23,19 +23,19 @@ public class Establo implements Serializable {
             System.out.println("El establo está vacío.");
 
         }else {
+            System.out.print("| ID   | Tipo       |Alimentado | Alimento  | Producto   |\n" +
+                    "-----------------------------------------------------------------------------");
+            System.out.println();
             for (Animales animal:animales){
-                System.out.println("Tipo de animal: " + animal.getTipo());
-                System.out.println("Nombre: " + animal.getNombre());
-                System.out.println("Día de inserción: " + animal.getDia_insercion());
-                if (animal instanceof Oveja) {
-                    Oveja oveja=(Oveja) animal;
-                    System.out.println("Fecha de esquilado: " + oveja.getDiaEsquilado());
-                } else if (animal instanceof Vaca) {
-                    Vaca vaca=(Vaca) animal;
-                    System.out.println("Peso: " + vaca.getPeso() + " kg");
+                String alimentado="";
+                if(animal.isAlimentado()){
+                    alimentado="Si";
+                }else {
+                    alimentado="No";
                 }
-                System.out.println("Alimento: "+animal.getAlimento().getNombre());
-                System.out.println("Producto: "+animal.getProducto().getNombre());
+                System.out.print("| " + animal.getTipo()+"   | "+animal.getTipo()+"   | "+alimentado+"        " +
+                        "| "+animal.getAlimento().getNombre()+"      | "+animal.getProducto().getNombre()+"   |");
+                System.out.println();
             }
         }
     }
@@ -69,6 +69,21 @@ public class Establo implements Serializable {
 
     public void alimentar(Granja granja){
 
+        List<Alimento>alimentos=GestionBBDD.recogerAlimentos();
+
+     for (Animales animales:granja.getEstablo().getAnimales()){
+        for (Alimento alimento:alimentos){
+            if (animales.getAlimento().getId()==alimento.getId()){
+                if (alimento.getCantidad()>0){
+                    animales.setAlimentado(true);
+                    GestionBBDD.actualizarAlimento(alimento);
+                    if (animales.isAlimentado()==true)
+                    System.out.println("La "+animales.getTipo()+" llamada "+animales.getNombre()+" está alimentada");
+                }
+            }
+        }
+
+     }
 
     }
 

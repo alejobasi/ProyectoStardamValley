@@ -60,7 +60,9 @@ public class GestionBBDD {
 
                 String nombre_alimento = rs.getString("nombre");
                 double precio = rs.getDouble("precio");
-                Alimento alimento = new Alimento(id_alimento, nombre_alimento, precio);
+                int cantidad= rs.getInt("cantidad_disponible");
+                Alimento alimento = new Alimento(id_alimento, nombre_alimento, precio, cantidad);
+
                 alimentos.add(alimento);
 
 
@@ -244,6 +246,23 @@ public class GestionBBDD {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void actualizarAlimento(Alimento alimento){
+        try {
+        GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+        Connection conn = gestionBBDD.getConn();
+        String query = "Update alimentos Set cantidad_disponible = cantidad_disponible-1 where id=?";
+        PreparedStatement stmt = conn.prepareStatement(query);
+
+
+        stmt.setInt(1, alimento.getId());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
 

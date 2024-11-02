@@ -66,4 +66,12 @@ public class Animales implements Serializable {
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
+
+    public boolean isAlimentado() {
+        return alimentado;
+    }
+
+    public void setAlimentado(boolean alimentado) {
+        this.alimentado = alimentado;
+    }
 }

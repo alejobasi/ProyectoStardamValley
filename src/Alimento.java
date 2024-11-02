@@ -5,6 +5,7 @@ public class Alimento implements Serializable {
     private int id;
     private String nombre;
     private double precio;
+    private int cantidad;
 
     public Alimento(int id, String nombre, double precio) {
         this.id = id;
@@ -12,7 +13,12 @@ public class Alimento implements Serializable {
         this.precio = precio;
     }
 
-
+    public Alimento(int id, String nombre, double precio, int cantidad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+    }
 
     public int getId() {
         return id;
@@ -34,7 +40,16 @@ public class Alimento implements Serializable {
         return precio;
     }
 
-    public void setPrecio(int precio) {
+
+    public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 }
