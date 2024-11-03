@@ -74,6 +74,38 @@ public class GestionBBDD {
 
     }
 
+    public static List<Producto> recogerProductos() {
+        List<Producto> productos = new ArrayList<>();
+
+
+
+        try {
+
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
+
+            PreparedStatement stmt = conn.prepareStatement("Select * from productos");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id_producto= rs.getInt("id");
+
+                String nombre_producto = rs.getString("nombre");
+                double precio = rs.getDouble("precio");
+                int cantidad= rs.getInt("cantidad_disponible");
+                Producto producto = new Producto(id_producto, nombre_producto, precio, cantidad);
+
+                productos.add(producto);
+
+
+            }
+            return productos;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
     public static Alimento recogerAlimentoporId(int id) {
 
@@ -165,9 +197,13 @@ public class GestionBBDD {
                 } else if (tipo == Animal.OVEJA) {
                     Oveja oveja = new Oveja(id, tipo, nombre, dia_insercion, alimento, producto);
                     lista.add(oveja);
-                } else {
-                    Animales animal = new Animales(id, tipo, nombre, dia_insercion, alimento, producto);
-                    lista.add(animal);
+                } else if (tipo==Animal.GALLINA){
+
+                    Gallina gallina = new Gallina(id, tipo, nombre, dia_insercion, alimento, producto);
+                    lista.add(gallina);
+                }else if (tipo==Animal.CERDO){
+                    Cerdo cerdo = new Cerdo(id, tipo, nombre, dia_insercion, alimento, producto);
+                    lista.add(cerdo);
                 }
 
             }
@@ -227,7 +263,7 @@ public class GestionBBDD {
 
 
     }
-    public static void transsaccionesCompra( double precio){
+    public static void transsacciones( double precio ,Transaccion transaccion, Elemento elemento){
 
         try {
 
@@ -236,8 +272,8 @@ public class GestionBBDD {
             String query2 = "INSERT INTO transacciones (tipo_transaccion,tipo_elemento,precio,fecha_transaccion) VALUES(?,?,?,?)";
             PreparedStatement stmt2 = conn.prepareStatement(query2);
 
-            stmt2.setString(1, Transaccion.COMPRA.toString());
-            stmt2.setString(2, Elemento.ALIMENTO.toString());
+            stmt2.setString(1, transaccion.toString());
+            stmt2.setString(2, elemento.toString());
             stmt2.setDouble(3, precio);
             stmt2.setString(4, LocalDateTime.now().toString());
 
@@ -248,21 +284,86 @@ public class GestionBBDD {
         }
     }
 
-    public static void actualizarAlimento(Alimento alimento){
+    public static void actualizarAlimento(Alimento alimento, int cantidad){
         try {
         GestionBBDD gestionBBDD = GestionBBDD.getInstance();
         Connection conn = gestionBBDD.getConn();
-        String query = "Update alimentos Set cantidad_disponible = cantidad_disponible-1 where id=?";
+        String query = "Update alimentos Set cantidad_disponible = cantidad_disponible-? where id=?";
         PreparedStatement stmt = conn.prepareStatement(query);
 
-
-        stmt.setInt(1, alimento.getId());
+        stmt.setInt(1, cantidad);
+        stmt.setInt(2, alimento.getId());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static void actualizarCantidadProducto(int id_producto, int catidad) {
+        try {
+
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
+
+            String query = "Update productos Set cantidad_disponible = cantidad_disponible+? where id=?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+
+
+            stmt.setInt(1, catidad);
+            stmt.setInt(2, id_producto);
+            stmt.executeUpdate();
+
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        }
+
+
+    }
+
+    public static void historialConsumo(int id, int cantidad, String fecha){
+
+        try {
+
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
+            String query2 = "INSERT INTO historialconsumo (id_animal,cantidad_consumida,fecha_consumo) VALUES(?,?,?)";
+            PreparedStatement stmt2 = conn.prepareStatement(query2);
+
+            stmt2.setInt(1, id);
+            stmt2.setInt(2, cantidad);
+            stmt2.setTimestamp(3, Timestamp.valueOf(fecha));
+
+            stmt2.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void historialProduccion(int id, int cantidad, String fecha){
+
+        try {
+
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
+            String query2 = "INSERT INTO historialproduccion (id_animal,cantidad,fecha_produccion) VALUES(?,?,?)";
+            PreparedStatement stmt2 = conn.prepareStatement(query2);
+
+            stmt2.setInt(1, id);
+            stmt2.setInt(2, cantidad);
+            stmt2.setTimestamp(3, Timestamp.valueOf(fecha));
+
+            stmt2.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

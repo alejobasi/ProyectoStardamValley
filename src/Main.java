@@ -207,6 +207,7 @@ public class Main {
      * @param diasCont para el cambio de estacion
      */
     public static void menuOpciones(Granja granja, int diasCont){
+        boolean animalesAlimemtados=false;
 
         boolean cultivosAtendidos=false;
         Scanner sc=new Scanner(System.in);
@@ -228,6 +229,7 @@ public class Main {
 
         switch (respuesta){
             case 1:
+
                 diasCont++;
                 if (diasPorEstacion==diasCont){
 
@@ -243,17 +245,21 @@ public class Main {
                 granja.setDiaJuego(granja.getDiaJuego()+1);
                 Tienda.generarNuevaTienda(granja);
                 cultivosAtendidos=false;
+                animalesAlimemtados=false;
+                granja.getEstablo().reiniciarAlimento(granja);
+                granja.getEstablo().actualizarDia(granja);
                 menuOpciones(granja, diasCont);
+
 
 
             break;
 
             case 2:
-               huertoOpciones(granja);
+               huertoOpciones(granja, cultivosAtendidos);
                 break;
 
             case 3:
-                establoOpciones(granja);
+                establoOpciones(granja, animalesAlimemtados);
                 break;
 
             case 4:
@@ -271,8 +277,8 @@ public class Main {
 
     }
 
-    public static void huertoOpciones(Granja granja){
-        boolean cultivosAtendidos=false;
+    public static void huertoOpciones(Granja granja, boolean cultivosAtendidos){
+
         Scanner sc=new Scanner(System.in);
         int respuesta=0;
         boolean salida2=false;
@@ -345,8 +351,7 @@ public class Main {
 
     }
 
-    public static void establoOpciones(Granja granja){
-        boolean animalesAlimemtados=false;
+    public static void establoOpciones(Granja granja, boolean animalesAlimemtados){
         Scanner sc=new Scanner(System.in);
         int respuesta=0;
         boolean salida3=false;
@@ -371,6 +376,8 @@ public class Main {
 
                 case 1:
 
+                    granja.getEstablo().producir(granja);
+                    break;
 
                 case 2:
                     if (animalesAlimemtados!=true){
@@ -385,6 +392,7 @@ public class Main {
 
                 case 3:
 
+                    granja.getEstablo().venderProductos(granja);
 
 
                     break;
@@ -403,7 +411,7 @@ public class Main {
                     break;
             }
 
-        }while (respuesta>1&&respuesta<6&&!salida3);
+        }while (respuesta>0&&respuesta<6&&!salida3);
     }
 }
 
