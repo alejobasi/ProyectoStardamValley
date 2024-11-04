@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class Animales implements Serializable {
+public abstract class Animales implements Serializable {
     private int id;
     private Animal tipo;
     private String nombre;
@@ -74,4 +74,6 @@ public class Animales implements Serializable {
     public void setAlimentado(boolean alimentado) {
         this.alimentado = alimentado;
     }
+
+    public abstract int  producir(Granja granja);
 }

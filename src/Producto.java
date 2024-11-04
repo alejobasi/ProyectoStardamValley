@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Producto implements Serializable {
 
@@ -51,5 +52,17 @@ public class Producto implements Serializable {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Producto producto)) return false;
+        return id == producto.id && Double.compare(precio, producto.precio) == 0 && cantidad == producto.cantidad && Objects.equals(nombre, producto.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, precio, cantidad);
     }
 }

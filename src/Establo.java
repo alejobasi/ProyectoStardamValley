@@ -1,9 +1,7 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Establo implements Serializable {
     private List<Animales> animales;
@@ -177,101 +175,37 @@ public class Establo implements Serializable {
         }
     }
 
-    public void producir(Granja granja){
-        int huevos=0;
-        int leche=0;
-        int lana=0;
-        int trufa=0;
-
+    public void produccion(Granja granja){
+        boolean alimentados=true;
+        HashMap<Producto,Integer> mapa=new HashMap();
         for (Animales animales:granja.getEstablo().getAnimales()){
             if (animales.isAlimentado()==true){
 
-                LocalDateTime fecha = LocalDateTime.now();
-                DateTimeFormatter formato=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                String formatosql=fecha.format(formato);
 
 
-                if (animales instanceof Gallina){
-                    System.out.println(animales.getDia_insercion());
-                    if (animales.getDia_insercion()<3){
-                        System.out.println("La gallina "+animales.getNombre()+" es muy joven y todavia no da huevos");
 
-                    }else if (animales.getDia_insercion()>3 && animales.getDia_insercion()<40){
-                        huevos+=2;
-                        GestionBBDD.historialProduccion(animales.getId(),2,formatosql);
-                        GestionBBDD.actualizarCantidadProducto(animales.getProducto().getId(),2);
+               int cant= animales.producir(granja);
 
-                    }else {
-                        GestionBBDD.historialProduccion(animales.getId(),1,formatosql);
-
-                        GestionBBDD.actualizarCantidadProducto(animales.getProducto().getId(),1);
-                        huevos+=1;
-
-                    }
+                mapa.put(animales.getProducto(),cant);
+                if (!alimentados){
+                    alimentados=true;
 
                 }
-
-
-                if (animales instanceof Oveja){
-
-                    Oveja oveja=(Oveja) animales;
-                    LocalDateTime fechaEsquilada=oveja.getDiaEsquilado();
-
-                    if (fechaEsquilada.isBefore(LocalDateTime.now().minusDays(2))) {
-                        GestionBBDD.historialProduccion(animales.getId(),5,formatosql);
-
-                        GestionBBDD.actualizarCantidadProducto(oveja.getProducto().getId(), 5);
-                        lana+=5;
-                    }else {
-                        System.out.println("Todavia no han pasado 2 dias y no se puede esquilar");
-                    }
-                }
-
-                if (animales instanceof Vaca){
-                    Vaca vaca=(Vaca) animales;
-
-                    int cantidad=vaca.getPeso()/100;
-                    System.out.println(cantidad);
-                    leche+=cantidad;
-                    GestionBBDD.historialProduccion(animales.getId(),cantidad,formatosql);
-
-                    GestionBBDD.actualizarCantidadProducto(vaca.getProducto().getId(), cantidad);
-
-
-                }
-
-                if (animales instanceof Cerdo) {
-                    Cerdo cerdo = (Cerdo) animales;
-
-                    if (granja.getEstacion()==Estaciones.PRIMAVERA || granja.getEstacion()==Estaciones.VERANO){
-
-                        Random random= new Random();
-                        int cantidad= random.nextInt(2)+2;
-                        trufa+=cantidad;
-                        GestionBBDD.historialProduccion(animales.getId(),cantidad,formatosql);
-
-                        GestionBBDD.actualizarCantidadProducto(cerdo.getProducto().getId(), cantidad);
-                    } else if (granja.getEstacion()==Estaciones.OTOÑO) {
-                        Random random= new Random();
-                        int cantidad= random.nextInt(2);
-                        trufa+=cantidad;
-                        GestionBBDD.historialProduccion(animales.getId(),cantidad,formatosql);
-
-                        GestionBBDD.actualizarCantidadProducto(cerdo.getProducto().getId(), cantidad);
-                        
-                    }
-
-                }
-
             }
             animales.setAlimentado(false);
         }
+if (alimentados){
+
 
         System.out.println("Comenzando la produducción");
-        System.out.println("Se han almacenado "+huevos+" unidades de huevo");
-        System.out.println("Se han almacenado "+lana+" unidades de lana");
-        System.out.println("Se han almacenado "+trufa+" unidades de trufa");
-        System.out.println("Se han almacenado "+leche+" unidades de leche");
+        for (Map.Entry<Producto, Integer> entry : mapa.entrySet()) {
+            Producto producto = entry.getKey();
+            int cantidad = entry.getValue();
+            System.out.println("Se han almacenado " + cantidad + " unidades de " + producto.getNombre());
+        }
+}else {
+    System.out.println("No están alimentados");
+}
     }
 
     public void venderProductos(Granja granja){

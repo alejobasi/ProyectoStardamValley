@@ -377,7 +377,7 @@ public class Main {
 
                 case 1:
 
-                    granja.getEstablo().producir(granja);
+                    granja.getEstablo().produccion(granja);
                     break;
 
                 case 2:
