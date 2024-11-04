@@ -41,9 +41,31 @@ public class Establo implements Serializable {
                     alimentado="No";
                 }
                 System.out.print("| " + animal.getTipo()+"   | "+animal.getTipo()+"   | "+alimentado+"        " +
-                        "| "+animal.getAlimento().getNombre()+"      | "+animal.getProducto().getNombre()+"   |"+animal.getDia_insercion());
+                        "| "+animal.getAlimento().getNombre()+"      | "+animal.getProducto().getNombre()+"   |");
                 System.out.println();
             }
+        }
+        System.out.println();
+        System.out.println();
+
+        List<Alimento>alimentos=GestionBBDD.recogerAlimentos();
+        System.out.print("| Alimento   | Cantidad Disponible |\n" +
+                "---------------------------------------");
+        System.out.println();
+        for (Alimento alimento:alimentos){
+            System.out.print("| " + alimento.getNombre()+"   | "+alimento.getCantidad()+"   | ");
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+
+        List<Producto>productos=GestionBBDD.recogerProductos();
+        System.out.print("| Producto   | Cantidad Disponible |\n" +
+                "---------------------------------------");
+        System.out.println();
+        for (Producto producto:productos){
+            System.out.print("| " + producto.getNombre()+"   | "+producto.getCantidad()+"   | ");
+            System.out.println();
         }
     }
 

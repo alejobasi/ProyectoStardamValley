@@ -75,6 +75,7 @@ public class Main {
     public static void nuevaPartida(Granja granja){
         GestionFicheros.borrarNuevaPartida();
         GestionBBDD.recogerAnimales(granja);
+        GestionBBDD.borrarTodo();
         Scanner sc = new Scanner(System.in);
 
         int numFilHuerto = 0;

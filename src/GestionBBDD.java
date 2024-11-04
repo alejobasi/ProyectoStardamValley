@@ -107,59 +107,7 @@ public class GestionBBDD {
     }
 
 
-    public static Alimento recogerAlimentoporId(int id) {
 
-
-
-        try {
-
-            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
-            Connection conn = gestionBBDD.getConn();
-
-            PreparedStatement stmt = conn.prepareStatement("Select * from alimentos");
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                int id_alimento = rs.getInt("id");
-                if (id_alimento == id) {
-                    String nombre_alimento = rs.getString("nombre");
-                    double precio = rs.getDouble("precio");
-                    Alimento alimento = new Alimento(id_alimento, nombre_alimento, precio);
-                    return alimento;
-                }
-
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-    /*public static Producto recogerProductoporId(int id) {
-
-        try {
-            PreparedStatement stmt = conn.prepareStatement("Select * from productos");
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                int id_producto = rs.getInt("id");
-                if (id_producto == id) {
-                    String nombre_producto = rs.getString("nombre");
-                    double precio = rs.getDouble("precio");
-                    Producto producto = new Producto(id_producto, nombre_producto, precio);
-                    return producto;
-                }
-
-            }
-
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }*/
 
     public static void recogerAnimales(Granja granja) {
 
@@ -364,6 +312,38 @@ public class GestionBBDD {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void borrarTodo(){
+
+        try {
+
+            GestionBBDD gestionBBDD = GestionBBDD.getInstance();
+            Connection conn = gestionBBDD.getConn();
+            String query = "Update productos Set cantidad_disponible = 0";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.executeUpdate();
+
+            String query2 = "Update alimentos Set cantidad_disponible = 5";
+            PreparedStatement stmt2 = conn.prepareStatement(query2);
+            stmt2.executeUpdate();
+
+            String query3 = "TRUNCATE TABLE historialconsumo";
+            PreparedStatement stmt3 = conn.prepareStatement(query3);
+            stmt3.executeUpdate();
+
+            String query4 = "TRUNCATE TABLE historialproduccion";
+            PreparedStatement stmt4 = conn.prepareStatement(query4);
+            stmt4.executeUpdate();
+
+            String query5 = "TRUNCATE TABLE transacciones";
+            PreparedStatement stmt5 = conn.prepareStatement(query5);
+            stmt5.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
 
