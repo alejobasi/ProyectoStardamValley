@@ -28,4 +28,6 @@ public class Gallina extends Animales{
         }
         return huevos;
     }
+
+
 }

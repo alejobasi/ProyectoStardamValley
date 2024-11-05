@@ -1,4 +1,7 @@
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public abstract class Animales implements Serializable {
     private int id;
@@ -76,4 +79,27 @@ public abstract class Animales implements Serializable {
     }
 
     public abstract int  producir(Granja granja);
+
+    public void alimentar(){
+        List<Alimento> alimentos=GestionBBDD.recogerAlimentos();
+
+        LocalDateTime fecha = LocalDateTime.now();
+        DateTimeFormatter formato=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatosql=fecha.format(formato);
+
+        for (Alimento alimento:alimentos){
+            if (this.getAlimento().getId()==alimento.getId() && alimento.getCantidad()>0){
+                this.setAlimentado(true);
+
+                GestionBBDD.historialConsumo(this.getId(),1,formatosql);
+
+                GestionBBDD.actualizarAlimento(alimento, 1);
+                if (this.isAlimentado()==true)
+                    System.out.println("La "+this.getTipo()+" llamada "+this.getNombre()+" está alimentada");
+            }
+        }
+    }
+
+
+
 }

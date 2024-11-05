@@ -73,6 +73,14 @@ public class Establo implements Serializable {
         int cantidadMax=25;
         double presupuestoPrimero=granja.getPresupuesto();
         double presupuestoFinal;
+        List<Alimento>todosAlimentos=GestionBBDD.recogerAlimentos();
+        int total=0;
+        for (Alimento a:todosAlimentos){
+            if (a.getCantidad()==25){
+            total++;
+            }
+        }
+
         for (Alimento al:listaAlimentos){
             int cantidad=GestionBBDD.recogerCantidadAlimeto(al.getId());
             if (cantidad<25){
@@ -86,76 +94,26 @@ public class Establo implements Serializable {
 
             }
         }
+        if (total!=3){
         presupuestoFinal=presupuestoPrimero- granja.getPresupuesto();
         System.out.println("Has gastado en total: "+(presupuestoFinal));
 
-        GestionBBDD.transsacciones(presupuestoFinal,Transaccion.COMPRA,Elemento.ALIMENTO);
+
+            GestionBBDD.transsacciones(presupuestoFinal,Transaccion.COMPRA,Elemento.ALIMENTO);
+
+        }else {
+            System.out.println("Ya tienes los comederos llenos");
+        }
 
 
     }
 
-    public void alimentar(Granja granja){
+    public void alimentando(Granja granja){
 
         List<Alimento>alimentos=GestionBBDD.recogerAlimentos();
 
      for (Animales animales:granja.getEstablo().getAnimales()){
-         LocalDateTime fecha = LocalDateTime.now();
-         DateTimeFormatter formato=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-         String formatosql=fecha.format(formato);
-
-        for (Alimento alimento:alimentos){
-            if (animales.getAlimento().getId()==alimento.getId()){
-                if (animales instanceof Vaca){
-
-                    if (animales.getDia_insercion()<10){
-                        if (alimento.getCantidad()>0){
-                            animales.setAlimentado(true);
-
-                            GestionBBDD.historialConsumo(animales.getId(),1,formatosql);
-                            GestionBBDD.actualizarAlimento(alimento, 1);
-                            if (animales.isAlimentado()==true)
-                                System.out.println("La "+animales.getTipo()+" llamada "+animales.getNombre()+" está alimentada");
-                        }
-                    } else if (animales.getDia_insercion()>10&&animales.getDia_insercion()<40) {
-                        if (alimento.getCantidad()>2){
-                            animales.setAlimentado(true);
-
-                            GestionBBDD.historialConsumo(animales.getId(),3,formatosql);
-
-                            GestionBBDD.actualizarAlimento(alimento, 3);
-                            if (animales.isAlimentado()==true)
-                                System.out.println("La "+animales.getTipo()+" llamada "+animales.getNombre()+" está alimentada");
-                        }
-                    }else {
-                        if (alimento.getCantidad()>1){
-                            animales.setAlimentado(true);
-
-                            GestionBBDD.historialConsumo(animales.getId(),2,formatosql);
-
-                            GestionBBDD.actualizarAlimento(alimento, 2);
-                            if (animales.isAlimentado()==true)
-                                System.out.println("La "+animales.getTipo()+" llamada "+animales.getNombre()+" está alimentada");
-                        }
-                    }
-
-                }else {
-
-
-                if (alimento.getCantidad()>0){
-
-                    animales.setAlimentado(true);
-
-
-
-                    GestionBBDD.historialConsumo(animales.getId(),1,formatosql);
-
-                    GestionBBDD.actualizarAlimento(alimento, 1);
-                    if (animales.isAlimentado()==true)
-                    System.out.println("La "+animales.getTipo()+" llamada "+animales.getNombre()+" está alimentada");
-                }
-                }
-            }
-        }
+        animales.alimentar();
 
      }
 
@@ -186,7 +144,7 @@ public class Establo implements Serializable {
 
                int cant= animales.producir(granja);
 
-                mapa.put(animales.getProducto(),cant);
+                mapa.merge(animales.getProducto(),cant,Integer::sum);
                 if (!alimentados){
                     alimentados=true;
 

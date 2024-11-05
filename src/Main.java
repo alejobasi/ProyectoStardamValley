@@ -382,7 +382,7 @@ public class Main {
 
                 case 2:
                     if (animalesAlimemtados!=true){
-                        granja.getEstablo().alimentar(granja);
+                        granja.getEstablo().alimentando(granja);
                 }else {
                         System.out.println("Tus animales ya están alimentados");
                     }
